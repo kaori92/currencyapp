@@ -1,4 +1,4 @@
-package com.example.assignment
+package com.example.assignment.retrofit
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -8,11 +8,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
 
-    var BASE_URL:String="https://data.fixer.io/api/latest"
+    var BASE_URL: String = "http://data.fixer.io/api/"
     val getClient: ApiInterface
-
         get() {
-
             val gson = GsonBuilder()
                 .setLenient()
                 .create()
@@ -27,7 +25,5 @@ object ApiClient {
                 .build()
 
             return retrofit.create(ApiInterface::class.java)
-
         }
-
 }
