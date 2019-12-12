@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.models.ExchangeRates
 import com.example.assignment.retrofit.ApiClient
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.util.logging.Logger
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     lateinit var progressDialog: ProgressDialog
-    private lateinit var exchangeRates: ExchangeRates
+    private var compositeDisposable: CompositeDisposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,32 +43,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        val call: Call<ExchangeRates> = ApiClient.getClient.getExchangeRates(BuildConfig.API_KEY)
-        call.enqueue(object : Callback<ExchangeRates> {
+        // TODO move to another class, put in bckground thread
+        val requestInterface = ApiClient.getClient
 
-            override fun onResponse(
-                call: Call<ExchangeRates>?,
-                response: Response<ExchangeRates>?
-            ) {
-                progressDialog.dismiss()
-                Logger.getLogger(MainActivity::class.java.name).warning("response : $response")
+        requestInterface.getExchangeRates(BuildConfig.API_KEY)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(this::handleResponse, this::handleError)
+    }
 
-                if (response?.isSuccessful()!!) {
-                    response.body()?.let {
-                        Logger.getLogger(MainActivity::class.java.name).warning("body: $it")
-                        exchangeRates = it
-                        setUpRecyclerView(it)
-                    }
-                }
+    private fun handleResponse(exchangeRates: ExchangeRates) {
+        progressDialog.dismiss()
+        Logger.getLogger(MainActivity::class.java.name).warning("body: $exchangeRates")
+        setUpRecyclerView(exchangeRates)
 
-                recyclerView.adapter?.notifyDataSetChanged()
-            }
+        recyclerView.adapter?.notifyDataSetChanged()
+    }
 
-            override fun onFailure(call: Call<ExchangeRates>?, t: Throwable?) {
-                progressDialog.dismiss()
-                Logger.getLogger(MainActivity::class.java.name).warning("onFailure ${t?.message}")
-            }
-        })
+    private fun handleError(error: Throwable) {
+        progressDialog.dismiss()
+        Logger.getLogger(MainActivity::class.java.name).warning("onFailure ${error?.message}")
     }
 }
 
