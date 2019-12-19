@@ -1,14 +1,15 @@
-package com.example.assignment
+package com.example.assignment.exchange.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.assignment.models.ExchangeRates
+import com.example.assignment.R
+import com.example.assignment.exchange.data.data.ExchangeRates
 
-class MyAdapter(private val myDataset: ExchangeRates) :
-    RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+class RecyclerViewAdapter(private val myDataset: ExchangeRates) :
+    RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ViewHolder {
