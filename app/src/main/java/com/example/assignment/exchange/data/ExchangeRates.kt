@@ -1,4 +1,4 @@
-package com.example.assignment.exchange.data.data
+package com.example.assignment.exchange.data
 
 import com.google.gson.annotations.SerializedName
 

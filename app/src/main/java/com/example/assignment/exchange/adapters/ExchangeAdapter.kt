@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment.R
-import com.example.assignment.exchange.data.data.ExchangeRates
+import com.example.assignment.exchange.data.ExchangeRates
 
-class RecyclerViewAdapter(private val myDataset: ExchangeRates) :
-    RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class ExchangeAdapter(private val myDataset: ExchangeRates) :
+    RecyclerView.Adapter<ExchangeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): ViewHolder {

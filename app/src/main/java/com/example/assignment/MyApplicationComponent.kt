@@ -1,12 +1,10 @@
-package com.example.assignment.exchange.components
+package com.example.assignment
 
 import android.app.Application
-import com.example.assignment.exchange.di.ExchangeModule
 import com.example.assignment.exchange.activities.ExchangeActivity
-import com.example.assignment.exchange.di.NetworkModule
+import com.example.assignment.exchange.components.ExchangeComponent
+import com.example.assignment.retrofit.NetworkModule
 import dagger.Component
-import javax.inject.Singleton
-
 
 @Component(modules = [NetworkModule::class])
 interface ApplicationComponent {
@@ -17,5 +15,6 @@ interface ApplicationComponent {
 }
 
 class MyApplicationComponent: Application() {
-    val appComponent = DaggerApplicationComponent.create()
+    val appComponent =
+        DaggerApplicationComponent.create()
 }

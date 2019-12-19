@@ -8,7 +8,6 @@ import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import java.util.logging.Logger
-import javax.inject.Inject
 
 @InjectViewState
 class ExchangePresenter(
@@ -22,6 +21,7 @@ class ExchangePresenter(
             .subscribe({
                 viewState.setUpRecyclerView(it)
             }, {
+//                viewState.showError(it)
                 Logger.getLogger(ExchangeActivity::class.java.name).warning("failure ${it?.message}")
             })
     }

@@ -1,6 +1,6 @@
 package com.example.assignment.retrofit
 
-import com.example.assignment.exchange.data.data.ExchangeRates
+import com.example.assignment.exchange.data.ExchangeRates
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
