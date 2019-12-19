@@ -13,8 +13,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class NetworkModule {
+object NetworkModule {
 
+    @JvmStatic
     @Provides
     fun provideRetrofitService(): CurrencyRetrofitService {
         val gson = GsonBuilder()

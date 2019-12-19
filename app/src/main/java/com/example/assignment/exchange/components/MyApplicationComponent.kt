@@ -10,7 +10,9 @@ import javax.inject.Singleton
 
 @Component(modules = [NetworkModule::class])
 interface ApplicationComponent {
+
     fun inject(activity: ExchangeActivity)
+
     fun requestExchangeComponentBuilder(): ExchangeComponent.Builder
 }
 

@@ -21,18 +21,19 @@ class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
     private val viewManager = LinearLayoutManager(this)
 
     @ProvidePresenter
-    fun providePresenter() = (applicationContext as MyApplicationComponent)
-        .appComponent
-        .requestExchangeComponentBuilder()
-        .build()
+    fun providePresenter() = component
         .presenter()
 
     @InjectPresenter
-    internal lateinit var exchangePresenter: ExchangePresenter
+    lateinit var exchangePresenter: ExchangePresenter
+
+    private val component by lazy {
+        (applicationContext as MyApplicationComponent)
+            .appComponent.requestExchangeComponentBuilder().build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        (applicationContext as ExchangeComponent).inject(this)
-        (applicationContext as MyApplicationComponent).appComponent.inject(this)
+        component.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

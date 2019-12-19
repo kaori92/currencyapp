@@ -8,13 +8,15 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ExchangeModule {
+object ExchangeModule {
+    @JvmStatic
     @Provides
     fun provideModel(
         retrofitService: CurrencyRetrofitService
     ): ExchangeRatesModel =
         ExchangeRatesModel(retrofitService)
 
+    @JvmStatic
     @Provides
     fun providePresenter(
         model: ExchangeRatesModel

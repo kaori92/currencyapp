@@ -12,9 +12,8 @@ import javax.inject.Inject
 
 @InjectViewState
 class ExchangePresenter(
-    val model: ExchangeRatesModel
+    private val model: ExchangeRatesModel
 ) : MvpPresenter<ExchangeView>() {
-
 
     fun getExchangeRates() {
         model.downloadExchangeRates()
