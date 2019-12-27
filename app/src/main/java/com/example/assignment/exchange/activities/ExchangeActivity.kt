@@ -1,5 +1,6 @@
 package com.example.assignment.exchange.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.example.assignment.MyApplicationComponent
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.presenter.ExchangePresenter
 import com.example.assignment.exchange.view.ExchangeView
+import com.example.assignment.symbols.activities.SymbolActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
@@ -17,6 +19,12 @@ import moxy.presenter.ProvidePresenter
 class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private val viewManager = LinearLayoutManager(this)
+
+    val itemOnClick: (ExchangeRates, Int) -> Unit = { exchangeRates, position ->
+        val intent = Intent(this, SymbolActivity::class.java)
+        intent.putExtra("base", exchangeRates.getArray()[position])
+        startActivity(intent)
+    }
 
     @ProvidePresenter
     fun providePresenter(): ExchangePresenter = component
@@ -37,9 +45,10 @@ class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
         exchangePresenter.getExchangeRates()
     }
 
+
     override fun setUpRecyclerView(exchangeRatesModel: ExchangeRates) {
         viewAdapter =
-            ExchangeAdapter(exchangeRatesModel)
+            ExchangeAdapter(exchangeRatesModel, itemOnClick)
 
         recyclerView.apply {
             setHasFixedSize(true)
@@ -49,4 +58,9 @@ class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
 
         recyclerView.adapter?.notifyDataSetChanged()
     }
+
+    override fun showErrorToast(error: Throwable) {
+        showError(error, this)
+    }
+
 }

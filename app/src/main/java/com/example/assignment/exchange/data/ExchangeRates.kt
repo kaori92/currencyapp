@@ -11,4 +11,8 @@ data class ExchangeRates(
     fun getExchangeRatesTexts(): Array<String> {
         return rates.entries.map { (currency, value) -> "$currency $value" }.toTypedArray()
     }
+
+    fun getArray(): Array<String> {
+        return rates.entries.map {(currency, value) -> currency}.toTypedArray()
+    }
 }

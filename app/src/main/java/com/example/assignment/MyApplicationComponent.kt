@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.assignment.exchange.activities.ExchangeActivity
 import com.example.assignment.exchange.components.ExchangeComponent
 import com.example.assignment.retrofit.NetworkModule
+import com.example.assignment.symbols.components.SymbolComponent
 import dagger.Component
 
 @Component(modules = [NetworkModule::class])
@@ -12,6 +13,8 @@ interface ApplicationComponent {
     fun inject(activity: ExchangeActivity)
 
     fun requestExchangeComponentBuilder(): ExchangeComponent.Builder
+
+    fun requestSymbolComponentBuilder(): SymbolComponent.Builder
 }
 
 class MyApplicationComponent: Application() {
