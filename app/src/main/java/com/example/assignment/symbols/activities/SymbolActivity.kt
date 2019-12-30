@@ -31,12 +31,12 @@ class SymbolActivity : MvpAppCompatActivity(), SymbolView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_symbol)
 
-        symbolPresenter.getSymbols()
+        //symbolPresenter.getSymbols()
+        symbolPresenter.getSymbolsFlowable()
     }
 
     override fun setSymbols(symbols: Symbols) {
         val base :String? = intent.getStringExtra("base")
-//        Log.d("TAG base", base)
         baseTextView.setText(base)
         nameTextView.setText(symbols.map.get(base))
     }
