@@ -13,6 +13,6 @@ data class ExchangeRates(
     }
 
     fun getArray(): Array<String> {
-        return rates.entries.map {(currency, value) -> currency}.toTypedArray()
+        return rates.entries.map {(currency, _) -> currency}.toTypedArray()
     }
 }

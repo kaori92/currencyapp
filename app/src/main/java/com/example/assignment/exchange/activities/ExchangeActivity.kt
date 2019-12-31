@@ -18,15 +18,18 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
 class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
+    override fun showErrorToast(error: Throwable) {
+        showError(error, this)
+    }
+
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private val viewManager = LinearLayoutManager(this)
     private var disposable: Disposable? = null
     private val date = "2013-12-24"
 
-    private val itemOnClick: (ExchangeRates, Int) -> Unit = { exchangeRates, position ->
-        val intent = Intent(this, SymbolActivity::class.java)
-        intent.putExtra("base", exchangeRates.getArray()[position])
-        startActivity(intent)
+    private val component by lazy {
+        (applicationContext as MyApplicationComponent)
+            .appComponent.requestExchangeComponentBuilder().build()
     }
 
     @ProvidePresenter
@@ -36,29 +39,29 @@ class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
     @InjectPresenter
     lateinit var exchangePresenter: ExchangePresenter
 
-    private val component by lazy {
-        (applicationContext as MyApplicationComponent)
-            .appComponent.requestExchangeComponentBuilder().build()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        exchangePresenter.getExchangeRates()
-//        exchangePresenter.getRatesForDate(date)
     }
 
     override fun onResume() {
         super.onResume()
 
-        disposable = exchangePresenter.getExchangeRatesPeriodically()
+//        exchangePresenter.getExchangeRates()
+//        exchangePresenter.getRatesForDate(date)
+//        disposable = exchangePresenter.getExchangeRatesPeriodically()
+    }
+
+    private val itemOnClick: (ExchangeRates, Int) -> Unit = { exchangeRates, position ->
+        val intent = Intent(this, SymbolActivity::class.java)
+        intent.putExtra("base", exchangeRates.getArray()[position])
+        startActivity(intent)
     }
 
     override fun onPause() {
         super.onPause()
         disposable?.let {
-            if(!it.isDisposed!!){
+            if(!it.isDisposed){
                 it.dispose()
             }
         }
@@ -76,9 +79,4 @@ class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
 
         recyclerView.adapter?.notifyDataSetChanged()
     }
-
-    override fun showErrorToast(error: Throwable) {
-        showError(error, this)
-    }
-
 }

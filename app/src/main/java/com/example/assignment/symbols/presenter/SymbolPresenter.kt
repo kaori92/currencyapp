@@ -4,12 +4,10 @@ import com.example.assignment.exchange.activities.ExchangeActivity
 import com.example.assignment.symbols.SymbolView
 import com.example.assignment.symbols.models.SymbolModel
 import io.reactivex.BackpressureStrategy
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import moxy.MvpPresenter
-import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
 @InjectViewState

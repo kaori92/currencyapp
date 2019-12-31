@@ -1,15 +1,13 @@
 package com.example.assignment.symbols.activities
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import com.example.assignment.MyApplicationComponent
 import com.example.assignment.R
 import com.example.assignment.symbols.SymbolView
-import com.example.assignment.symbols.data.Symbols
+import com.example.assignment.symbols.data.SymbolsMap
 import com.example.assignment.symbols.presenter.SymbolPresenter
-import moxy.MvpAppCompatActivity
 import kotlinx.android.synthetic.main.activity_symbol.*
+import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
@@ -35,10 +33,10 @@ class SymbolActivity : MvpAppCompatActivity(), SymbolView {
         symbolPresenter.getSymbolsFlowable()
     }
 
-    override fun setSymbols(symbols: Symbols) {
+    override fun setSymbols(symbolsMap: SymbolsMap) {
         val base :String? = intent.getStringExtra("base")
         baseTextView.setText(base)
-        nameTextView.setText(symbols.map.get(base))
+        nameTextView.setText(symbolsMap.map.get(base))
     }
 
     override fun showErrorToast(error: Throwable) {

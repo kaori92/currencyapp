@@ -14,11 +14,11 @@
         android:name=".MyApplicationComponent"
         android:theme="@style/AppTheme">
         <activity android:name=".exchange.activities.ExchangeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <activity android:name=".symbols.activities.SymbolActivity">
@@ -26,6 +26,14 @@
                 <action android:name="package.OtherActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".exchangeSymbols.activities.ExchangeSymbolActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
