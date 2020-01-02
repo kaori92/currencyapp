@@ -1,8 +1,9 @@
 package com.example.assignment.exchange.presenter
 
-import com.example.assignment.exchange.view.ExchangeView
 import com.example.assignment.exchange.activities.ExchangeActivity
+import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.models.ExchangeRatesModel
+import com.example.assignment.exchange.view.ExchangeView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -17,16 +18,20 @@ class ExchangePresenter(
     private val model: ExchangeRatesModel
 ) : MvpPresenter<ExchangeView>() {
 
-    fun getExchangeRates() {
-        model.downloadExchangeRates()
+    fun getExchangeRates(): Observable<ExchangeRates> {
+         val observable = model.downloadExchangeRates()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
+
+        observable
             .subscribe({
                 viewState.setUpRecyclerView(it)
             }, {
                 viewState.showErrorToast(it)
                 Logger.getLogger(ExchangeActivity::class.java.name).warning("Failure getting rates ${it?.message}")
             })
+
+        return observable
     }
 
     fun getExchangeRatesPeriodically(): Disposable {
