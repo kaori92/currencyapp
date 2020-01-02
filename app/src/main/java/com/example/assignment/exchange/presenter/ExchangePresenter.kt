@@ -20,8 +20,8 @@ class ExchangePresenter(
 
     fun getExchangeRates(): Observable<ExchangeRates> {
          val observable = model.downloadExchangeRates()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.trampoline())
+            .subscribeOn(Schedulers.trampoline())
 
         observable
             .subscribe({

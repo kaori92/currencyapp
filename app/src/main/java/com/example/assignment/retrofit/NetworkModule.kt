@@ -28,6 +28,7 @@ object NetworkModule {
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build().create(CurrencyRetrofitService::class.java)
+            .build()
+            .create(CurrencyRetrofitService::class.java)
     }
 }
