@@ -6,7 +6,6 @@ import com.example.assignment.exchangeSymbols.models.ExchangeSymbolModel
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolView
 import com.example.assignment.symbols.data.SymbolsMap
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
@@ -18,7 +17,7 @@ class ExchangeSymbolPresenter(
     private val model: ExchangeSymbolModel
 ) : MvpPresenter<ExchangeSymbolView>() {
 
-    fun getExchangeSymbols() {
+    fun getExchangeSymbols(): Observable<Array<String>> {
         val symbolsObservable: Observable<SymbolsMap> = model.downloadSymbols()
 
         val ratesObservable: Observable<ExchangeRates> = model.downloadExchangeRates()
@@ -30,14 +29,19 @@ class ExchangeSymbolPresenter(
         )
 
         zippedObservable
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.trampoline()) // tests
+            .subscribeOn(Schedulers.trampoline()) // tests
+//            .observeOn(AndroidSchedulers.mainThread()) // run app
+//            .subscribeOn(Schedulers.io()) // run app
             .subscribe({
                 viewState.setUpRecyclerView(it)
             }, {
                 viewState.showErrorToast(it)
-                Logger.getLogger(ExchangeActivity::class.java.name).warning("Failure getting rates ${it?.message}")
+                Logger.getLogger(ExchangeActivity::class.java.name)
+                    .warning("Failure getting rates ${it?.message}")
             })
+
+        return zippedObservable
     }
 
     private fun combineSymbolWithRate(symbols: SymbolsMap, rates: ExchangeRates): Array<String> {
@@ -46,6 +50,6 @@ class ExchangeSymbolPresenter(
             .groupBy({ it.key }, { it.value })
             .mapValues { (_, values) -> values.joinToString(" ") }
 
-        return unionList.entries.map{ (key, value) -> "$key $value"}.toTypedArray()
+        return unionList.entries.map { (key, value) -> "$key $value" }.toTypedArray()
     }
 }

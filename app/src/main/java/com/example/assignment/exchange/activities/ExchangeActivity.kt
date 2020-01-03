@@ -47,7 +47,7 @@ class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
     override fun onResume() {
         super.onResume()
 
-//        exchangePresenter.getExchangeRates()
+        exchangePresenter.getExchangeRates()
 //        exchangePresenter.getRatesForDate(date)
 //        disposable = exchangePresenter.getExchangeRatesPeriodically()
     }

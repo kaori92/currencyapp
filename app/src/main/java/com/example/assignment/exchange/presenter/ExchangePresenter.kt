@@ -4,6 +4,7 @@ import com.example.assignment.exchange.activities.ExchangeActivity
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.models.ExchangeRatesModel
 import com.example.assignment.exchange.view.ExchangeView
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -19,16 +20,19 @@ class ExchangePresenter(
 ) : MvpPresenter<ExchangeView>() {
 
     fun getExchangeRates(): Observable<ExchangeRates> {
-         val observable = model.downloadExchangeRates()
-            .observeOn(Schedulers.trampoline())
-            .subscribeOn(Schedulers.trampoline())
+        val observable = model.downloadExchangeRates()
+            .observeOn(Schedulers.trampoline()) // tests
+//             .observeOn(AndroidSchedulers.mainThread()) // run app
+//            .subscribeOn(Schedulers.io()) // run app
+            .subscribeOn(Schedulers.trampoline()) // tests
 
         observable
             .subscribe({
                 viewState.setUpRecyclerView(it)
             }, {
                 viewState.showErrorToast(it)
-                Logger.getLogger(ExchangeActivity::class.java.name).warning("Failure getting rates ${it?.message}")
+                Logger.getLogger(ExchangeActivity::class.java.name)
+                    .warning("Failure getting rates ${it?.message}")
             })
 
         return observable
@@ -39,26 +43,35 @@ class ExchangePresenter(
             .timeInterval()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Logger.getLogger(ExchangeActivity::class.java.name).warning("Getting exchange rates")
+                Logger.getLogger(ExchangeActivity::class.java.name)
+                    .warning("Getting exchange rates")
                 getExchangeRates()
             }, {
                 viewState.showErrorToast(it)
-                Logger.getLogger(ExchangeActivity::class.java.name).warning("Error subscribing to timer ${it?.message}")
+                Logger.getLogger(ExchangeActivity::class.java.name)
+                    .warning("Error subscribing to timer ${it?.message}")
             })
     }
 
-    fun getRatesForDate(date: String) {
-        model.downloadRatesForDate(date)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                Logger.getLogger(ExchangeActivity::class.java.name).info("Item received")
-                viewState.setUpRecyclerView(it)
-            }, {
-                viewState.showErrorToast(it)
-                Logger.getLogger(ExchangeActivity::class.java.name).warning("Failure getting rates for date ${it?.message}")
-            }, {
-                Logger.getLogger(ExchangeActivity::class.java.name).info("Done getting rates for date")
-            })
+    fun getRatesForDate(date: String): Maybe<ExchangeRates> {
+        val observable = model.downloadRatesForDate(date)
+            .observeOn(Schedulers.trampoline()) // tests
+//             .observeOn(AndroidSchedulers.mainThread()) // run app
+//            .subscribeOn(Schedulers.io()) // run app
+            .subscribeOn(Schedulers.trampoline()) // tests
+
+        observable.subscribe({
+            Logger.getLogger(ExchangeActivity::class.java.name).info("Item received")
+            viewState.setUpRecyclerView(it)
+        }, {
+            viewState.showErrorToast(it)
+            Logger.getLogger(ExchangeActivity::class.java.name)
+                .warning("Failure getting rates for date ${it?.message}")
+        }, {
+            Logger.getLogger(ExchangeActivity::class.java.name)
+                .info("Done getting rates for date")
+        })
+
+        return observable
     }
 }

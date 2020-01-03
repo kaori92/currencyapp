@@ -20,7 +20,7 @@ object NetworkModule {
             .setLenient()
             .create()
         val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.BODY }
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
         return Retrofit.Builder()
