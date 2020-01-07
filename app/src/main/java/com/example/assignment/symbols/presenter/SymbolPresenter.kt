@@ -28,7 +28,7 @@ class SymbolPresenter(
             .subscribe({
                 viewState.setSymbols(it)
             }, {
-                viewState.showErrorToast(it)
+                viewState.showError(it)
                 Logger.getLogger(ExchangeActivity::class.java.name)
                     .warning("failure ${it?.message}")
             })
@@ -48,7 +48,7 @@ class SymbolPresenter(
             .subscribe({
                 viewState.setSymbols(it)
             }, {
-                viewState.showErrorToast(it)
+                viewState.showError(it)
                 Logger.getLogger(ExchangeActivity::class.java.name)
                     .warning("failure ${it?.message}")
             })

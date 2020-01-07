@@ -30,7 +30,7 @@ class ExchangePresenter(
             .subscribe({
                 viewState.setUpRecyclerView(it)
             }, {
-                viewState.showErrorToast(it)
+                viewState.showError(it)
                 Logger.getLogger(ExchangeActivity::class.java.name)
                     .warning("Failure getting rates ${it?.message}")
             })
@@ -47,7 +47,7 @@ class ExchangePresenter(
                     .warning("Getting exchange rates")
                 getExchangeRates()
             }, {
-                viewState.showErrorToast(it)
+                viewState.showError(it)
                 Logger.getLogger(ExchangeActivity::class.java.name)
                     .warning("Error subscribing to timer ${it?.message}")
             })
@@ -64,7 +64,7 @@ class ExchangePresenter(
             Logger.getLogger(ExchangeActivity::class.java.name).info("Item received")
             viewState.setUpRecyclerView(it)
         }, {
-            viewState.showErrorToast(it)
+            viewState.showError(it)
             Logger.getLogger(ExchangeActivity::class.java.name)
                 .warning("Failure getting rates for date ${it?.message}")
         }, {

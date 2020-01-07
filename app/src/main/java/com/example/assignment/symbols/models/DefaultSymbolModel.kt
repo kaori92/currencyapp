@@ -7,7 +7,9 @@ import io.reactivex.Observable
 class DefaultSymbolModel(
     private val apiService: CurrencyRetrofitService
 ) : SymbolModel {
+
     override fun downloadSymbols(): Observable<SymbolsMap> {
         return apiService.getSymbols()
     }
+
 }

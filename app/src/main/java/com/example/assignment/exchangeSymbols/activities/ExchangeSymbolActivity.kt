@@ -2,25 +2,22 @@ package com.example.assignment.exchangeSymbols.activities
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.assignment.MyApplicationComponent
+import com.example.assignment.core.MyApplication
 import com.example.assignment.R
+import com.example.assignment.core.BaseActivity
 import com.example.assignment.exchangeSymbols.adapters.ExchangeSymbolAdapter
 import com.example.assignment.exchangeSymbols.presenter.ExchangeSymbolPresenter
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolView
 import kotlinx.android.synthetic.main.activity_main.*
-import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
-class ExchangeSymbolActivity: MvpAppCompatActivity(), ExchangeSymbolView {
-
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private val viewManager = LinearLayoutManager(this)
+class ExchangeSymbolActivity: BaseActivity(), ExchangeSymbolView {
 
     private val component by lazy {
-        (applicationContext as MyApplicationComponent)
-            .appComponent.requestExchangeSymbolComponentBuilder().build()
+        (applicationContext as MyApplication).appComponent
+            .requestExchangeSymbolComponentBuilder()
+            .build()
     }
 
     @ProvidePresenter
@@ -41,19 +38,14 @@ class ExchangeSymbolActivity: MvpAppCompatActivity(), ExchangeSymbolView {
     }
 
     override fun setUpRecyclerView(exchangeRatesModel: Array<String>) {
-        viewAdapter =
-            ExchangeSymbolAdapter(exchangeRatesModel)
+        val viewAdapter = ExchangeSymbolAdapter(exchangeRatesModel)
 
         recyclerView.apply {
             setHasFixedSize(true)
-            layoutManager = viewManager
+            layoutManager = LinearLayoutManager(context)
             adapter = viewAdapter
         }
 
         recyclerView.adapter?.notifyDataSetChanged()
-    }
-
-    override fun showErrorToast(error: Throwable) {
-        showError(error, this)
     }
 }

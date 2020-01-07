@@ -17,18 +17,14 @@ class ExchangeSymbolPresenter(
     private val model: ExchangeSymbolModel
 ) : MvpPresenter<ExchangeSymbolView>() {
 
-    fun getExchangeSymbols(): Observable<Array<String>> {
-        val symbolsObservable: Observable<SymbolsMap> = model.downloadSymbols()
-
-        val ratesObservable: Observable<ExchangeRates> = model.downloadExchangeRates()
-
-        val zippedObservable = Observable.zip(symbolsObservable, ratesObservable,
+    fun getExchangeSymbols() {
+        Observable.zip(
+            model.downloadSymbols(),
+            model.downloadExchangeRates(),
             BiFunction<SymbolsMap, ExchangeRates, Array<String>> { symbolsMap, rates ->
                 combineSymbolWithRate(symbolsMap, rates)
             }
         )
-
-        zippedObservable
             .observeOn(Schedulers.trampoline()) // tests
             .subscribeOn(Schedulers.trampoline()) // tests
 //            .observeOn(AndroidSchedulers.mainThread()) // run app
@@ -36,12 +32,10 @@ class ExchangeSymbolPresenter(
             .subscribe({
                 viewState.setUpRecyclerView(it)
             }, {
-                viewState.showErrorToast(it)
+                viewState.showError(it)
                 Logger.getLogger(ExchangeActivity::class.java.name)
                     .warning("Failure getting rates ${it?.message}")
             })
-
-        return zippedObservable
     }
 
     private fun combineSymbolWithRate(symbols: SymbolsMap, rates: ExchangeRates): Array<String> {

@@ -3,38 +3,28 @@ package com.example.assignment.exchange.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.assignment.MyApplicationComponent
+import com.example.assignment.core.MyApplication
 import com.example.assignment.R
+import com.example.assignment.core.BaseActivity
 import com.example.assignment.exchange.adapters.ExchangeAdapter
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.presenter.ExchangePresenter
 import com.example.assignment.exchange.view.ExchangeView
 import com.example.assignment.symbols.activities.SymbolActivity
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
-import moxy.MvpAppCompatActivity
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
-class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
-    override fun showErrorToast(error: Throwable) {
-        showError(error, this)
-    }
-
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private val viewManager = LinearLayoutManager(this)
-    private var disposable: Disposable? = null
-    private val date = "2013-12-24"
+class ExchangeActivity : BaseActivity(), ExchangeView {
 
     private val component by lazy {
-        (applicationContext as MyApplicationComponent)
-            .appComponent.requestExchangeComponentBuilder().build()
+        (applicationContext as MyApplication).appComponent
+            .requestExchangeComponentBuilder()
+            .build()
     }
 
     @ProvidePresenter
-    fun providePresenter(): ExchangePresenter = component
-        .presenter()
+    fun providePresenter(): ExchangePresenter = component.presenter()
 
     @InjectPresenter
     lateinit var exchangePresenter: ExchangePresenter
@@ -48,32 +38,27 @@ class ExchangeActivity : MvpAppCompatActivity(), ExchangeView {
         super.onResume()
 
         exchangePresenter.getExchangeRates()
-//        exchangePresenter.getRatesForDate(date)
-//        disposable = exchangePresenter.getExchangeRatesPeriodically()
     }
 
-    private val itemOnClick: (ExchangeRates, Int) -> Unit = { exchangeRates, position ->
+    private fun onItemClick(base: String) {
         val intent = Intent(this, SymbolActivity::class.java)
-        intent.putExtra("base", exchangeRates.getArray()[position])
+        intent.putExtra("base", base)
         startActivity(intent)
     }
 
-    override fun onPause() {
-        super.onPause()
-        disposable?.let {
-            if(!it.isDisposed){
-                it.dispose()
-            }
-        }
-    }
-
     override fun setUpRecyclerView(exchangeRatesModel: ExchangeRates) {
-        viewAdapter =
-            ExchangeAdapter(exchangeRatesModel, itemOnClick)
+        val viewAdapter = ExchangeAdapter(
+            exchangeRatesModel,
+            object : ExchangeAdapter.ExchangeRatesItemClickListener {
+                override fun onClick(base: String) {
+                    onItemClick(base)
+                }
+            }
+        )
 
         recyclerView.apply {
             setHasFixedSize(true)
-            layoutManager = viewManager
+            layoutManager = LinearLayoutManager(context)
             adapter = viewAdapter
         }
 

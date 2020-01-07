@@ -8,6 +8,7 @@ import io.reactivex.Observable
 class DefaultExchangeSymbolModel(
     private val apiService: CurrencyRetrofitService
 ) : ExchangeSymbolModel {
+
     override fun downloadExchangeRates(): Observable<ExchangeRates> {
         return apiService.getExchangeRates()
     }
@@ -15,4 +16,5 @@ class DefaultExchangeSymbolModel(
     override fun downloadSymbols(): Observable<SymbolsMap> {
         return apiService.getSymbols()
     }
+
 }

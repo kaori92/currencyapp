@@ -1,6 +1,6 @@
 package com.example.assignment.retrofit
 
-import com.example.assignment.API_URL
+import com.example.assignment.core.API_URL
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -19,8 +19,9 @@ object NetworkModule {
         val gson = GsonBuilder()
             .setLenient()
             .create()
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.apply { interceptor.level = HttpLoggingInterceptor.Level.BODY }
+        val interceptor = HttpLoggingInterceptor().also {
+            it.level = HttpLoggingInterceptor.Level.BODY
+        }
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
         return Retrofit.Builder()

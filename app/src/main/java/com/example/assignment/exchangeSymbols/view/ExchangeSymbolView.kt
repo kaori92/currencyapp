@@ -1,15 +1,12 @@
 package com.example.assignment.exchangeSymbols.view
 
-import com.example.assignment.BaseView
-import moxy.MvpView
+import com.example.assignment.core.BaseView
 import moxy.viewstate.strategy.AddToEndStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
-interface ExchangeSymbolView: MvpView, BaseView {
-    @StateStrategyType(AddToEndStrategy::class)
-    fun setUpRecyclerView(exchangeRatesModel: Array<String>)
+interface ExchangeSymbolView: BaseView {
 
     @StateStrategyType(AddToEndStrategy::class)
-    fun showErrorToast(error: Throwable)
+    fun setUpRecyclerView(exchangeRatesModel: Array<String>)
 
 }

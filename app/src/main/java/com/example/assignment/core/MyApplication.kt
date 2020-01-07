@@ -1,4 +1,4 @@
-package com.example.assignment
+package com.example.assignment.core
 
 import android.app.Application
 import com.example.assignment.exchange.activities.ExchangeActivity
@@ -20,7 +20,6 @@ interface ApplicationComponent {
     fun requestSymbolComponentBuilder(): SymbolComponent.Builder
 }
 
-class MyApplicationComponent: Application() {
-    val appComponent =
-        DaggerApplicationComponent.create()
+class MyApplication : Application() {
+    val appComponent: ApplicationComponent = DaggerApplicationComponent.create()
 }

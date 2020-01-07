@@ -10,6 +10,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CurrencyRetrofitService {
+
     @GET("latest")
     fun getExchangeRates(@Query("access_key") key: String = BuildConfig.API_KEY): Observable<ExchangeRates>
 
@@ -21,4 +22,5 @@ interface CurrencyRetrofitService {
         @Path("date") date: String,
         @Query("access_key") key: String = BuildConfig.API_KEY
     ): Maybe<ExchangeRates>
+
 }
