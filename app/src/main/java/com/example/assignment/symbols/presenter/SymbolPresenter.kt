@@ -1,7 +1,7 @@
 package com.example.assignment.symbols.presenter
 
-import com.example.assignment.exchange.activities.ExchangeActivity
-import com.example.assignment.symbols.SymbolView
+import com.example.assignment.exchange.view.ExchangeActivity
+import com.example.assignment.symbols.view.SymbolView
 import com.example.assignment.symbols.data.SymbolsMap
 import com.example.assignment.symbols.models.SymbolModel
 import io.reactivex.BackpressureStrategy

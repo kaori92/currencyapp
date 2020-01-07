@@ -1,6 +1,5 @@
-package com.example.assignment.exchange.components
+package com.example.assignment.exchange.di
 
-import com.example.assignment.exchange.di.ExchangeModule
 import com.example.assignment.exchange.presenter.ExchangePresenter
 import dagger.Subcomponent
 

@@ -1,6 +1,6 @@
 package com.example.assignment.symbols.models
 
-import com.example.assignment.retrofit.CurrencyRetrofitService
+import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.symbols.data.SymbolsMap
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock

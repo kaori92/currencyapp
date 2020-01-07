@@ -1,6 +1,5 @@
-package com.example.assignment.symbols.components
+package com.example.assignment.symbols.di
 
-import com.example.assignment.symbols.di.SymbolModule
 import com.example.assignment.symbols.presenter.SymbolPresenter
 import dagger.Subcomponent
 

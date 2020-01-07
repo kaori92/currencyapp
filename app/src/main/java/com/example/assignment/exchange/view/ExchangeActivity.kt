@@ -1,16 +1,15 @@
-package com.example.assignment.exchange.activities
+package com.example.assignment.exchange.view
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.assignment.core.MyApplication
 import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
+import com.example.assignment.core.MyApplication
 import com.example.assignment.exchange.adapters.ExchangeAdapter
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.presenter.ExchangePresenter
-import com.example.assignment.exchange.view.ExchangeView
-import com.example.assignment.symbols.activities.SymbolActivity
+import com.example.assignment.symbols.view.SymbolActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter

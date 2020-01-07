@@ -1,4 +1,4 @@
-package com.example.assignment.symbols
+package com.example.assignment.symbols.view
 
 import com.example.assignment.core.BaseView
 import com.example.assignment.symbols.data.SymbolsMap

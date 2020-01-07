@@ -1,17 +1,17 @@
-package com.example.assignment.symbols.activities
+package com.example.assignment.symbols.view
 
 import android.os.Bundle
-import com.example.assignment.core.MyApplication
 import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
-import com.example.assignment.symbols.SymbolView
+import com.example.assignment.core.MyApplication
 import com.example.assignment.symbols.data.SymbolsMap
 import com.example.assignment.symbols.presenter.SymbolPresenter
 import kotlinx.android.synthetic.main.activity_symbol.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
-class SymbolActivity : BaseActivity(), SymbolView {
+class SymbolActivity : BaseActivity(),
+    SymbolView {
 
     @ProvidePresenter
     fun providePresenter(): SymbolPresenter = component.presenter()

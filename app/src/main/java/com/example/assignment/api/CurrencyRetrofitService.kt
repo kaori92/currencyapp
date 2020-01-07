@@ -1,4 +1,4 @@
-package com.example.assignment.retrofit
+package com.example.assignment.api
 
 import com.example.assignment.BuildConfig
 import com.example.assignment.exchange.data.ExchangeRates

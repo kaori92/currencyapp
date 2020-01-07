@@ -1,7 +1,7 @@
 package com.example.assignment.exchange.models
 
+import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.exchange.data.ExchangeRates
-import com.example.assignment.retrofit.CurrencyRetrofitService
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Maybe

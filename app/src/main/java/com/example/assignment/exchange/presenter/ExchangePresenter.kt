@@ -1,8 +1,8 @@
 package com.example.assignment.exchange.presenter
 
-import com.example.assignment.exchange.activities.ExchangeActivity
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.models.ExchangeRatesModel
+import com.example.assignment.exchange.view.ExchangeActivity
 import com.example.assignment.exchange.view.ExchangeView
 import io.reactivex.Maybe
 import io.reactivex.Observable

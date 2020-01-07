@@ -1,6 +1,5 @@
-package com.example.assignment.exchangeSymbols.components
+package com.example.assignment.exchangeSymbols.di
 
-import com.example.assignment.exchangeSymbols.di.ExchangeSymbolModule
 import com.example.assignment.exchangeSymbols.presenter.ExchangeSymbolPresenter
 import dagger.Subcomponent
 

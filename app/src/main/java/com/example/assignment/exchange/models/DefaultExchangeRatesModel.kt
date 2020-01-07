@@ -1,13 +1,13 @@
 package com.example.assignment.exchange.models
 
+import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.exchange.data.ExchangeRates
-import com.example.assignment.retrofit.CurrencyRetrofitService
 import io.reactivex.Maybe
 import io.reactivex.Observable
 
 class DefaultExchangeRatesModel(
     private val apiService: CurrencyRetrofitService
-): ExchangeRatesModel {
+) : ExchangeRatesModel {
 
     override fun downloadExchangeRates(): Observable<ExchangeRates> {
         return apiService.getExchangeRates()

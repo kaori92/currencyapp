@@ -1,5 +1,6 @@
-package com.example.assignment.retrofit
+package com.example.assignment.di
 
+import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.core.API_URL
 import com.google.gson.GsonBuilder
 import dagger.Module

@@ -7,7 +7,7 @@ data class ExchangeRates(
     @SerializedName("date") val date: String,
     @SerializedName("base") val base: String,
     @SerializedName("rates") val rates: Map<String, Double>
-){
+) {
     val currencies = rates.keys.toList()
 
     val exchangeRatesTexts = rates.entries.map { (currency, value) -> "$currency $value" }.toList()

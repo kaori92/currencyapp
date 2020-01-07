@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.assignment">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,23 +13,11 @@
         android:usesCleartextTraffic="true"
         android:name=".core.MyApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".exchange.activities.ExchangeActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".exchange.view.ExchangeActivity" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+        <activity android:name=".symbols.view.SymbolActivity" />
 
-        <activity android:name=".symbols.activities.SymbolActivity">
-            <intent-filter>
-                <action android:name="package.OtherActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".exchangeSymbols.activities.ExchangeSymbolActivity">
+        <activity android:name=".exchangeSymbols.view.ExchangeSymbolActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

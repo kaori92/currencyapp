@@ -9,7 +9,7 @@ import com.example.assignment.R
 
 class ExchangeSymbolAdapter(
     private val exchangeSymbols: Array<String>
-): RecyclerView.Adapter<ExchangeSymbolAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ExchangeSymbolAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val textView = LayoutInflater.from(parent.context)

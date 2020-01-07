@@ -1,7 +1,7 @@
 package com.example.assignment.exchangeSymbols.presenter
 
-import com.example.assignment.exchange.activities.ExchangeActivity
 import com.example.assignment.exchange.data.ExchangeRates
+import com.example.assignment.exchange.view.ExchangeActivity
 import com.example.assignment.exchangeSymbols.models.ExchangeSymbolModel
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolView
 import com.example.assignment.symbols.data.SymbolsMap

@@ -23,7 +23,7 @@ class ExchangeAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.recyclerTextView.text = exchangeRates.exchangeRatesTexts[position]
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             val base = exchangeRates.currencies[position]
             itemClickListener.onClick(base)
         }

@@ -1,6 +1,6 @@
 package com.example.assignment.symbols.di
 
-import com.example.assignment.retrofit.CurrencyRetrofitService
+import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.symbols.models.DefaultSymbolModel
 import com.example.assignment.symbols.models.SymbolModel
 import com.example.assignment.symbols.presenter.SymbolPresenter

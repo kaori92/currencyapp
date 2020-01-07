@@ -1,18 +1,17 @@
-package com.example.assignment.exchangeSymbols.activities
+package com.example.assignment.exchangeSymbols.view
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.assignment.core.MyApplication
 import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
+import com.example.assignment.core.MyApplication
 import com.example.assignment.exchangeSymbols.adapters.ExchangeSymbolAdapter
 import com.example.assignment.exchangeSymbols.presenter.ExchangeSymbolPresenter
-import com.example.assignment.exchangeSymbols.view.ExchangeSymbolView
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
-class ExchangeSymbolActivity: BaseActivity(), ExchangeSymbolView {
+class ExchangeSymbolActivity : BaseActivity(), ExchangeSymbolView {
 
     private val component by lazy {
         (applicationContext as MyApplication).appComponent
