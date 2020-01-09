@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".exchange.view.ExchangeActivity">
+
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="300"
+        android:title="Exchange for date"
+        android:icon="@drawable/ic_trash_24px"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_exchange_timer"
+        android:orderInCategory="300"
+        android:title="Exchange for date"
+        android:icon="@drawable/ic_timer_24px"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_exchange_date"
+        android:orderInCategory="300"
+        android:title="Exchange for date"
+        android:icon="@drawable/ic_calendar_today_24px"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_exchange_symbols"
+        android:orderInCategory="300"
+        android:title="Exchange symbols"
+        android:icon="@drawable/ic_euro_symbol_24px"
+        app:showAsAction="always" />
+
+</menu>

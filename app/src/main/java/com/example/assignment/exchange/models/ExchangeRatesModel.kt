@@ -1,14 +1,11 @@
 package com.example.assignment.exchange.models
 
-import com.example.assignment.BuildConfig
 import com.example.assignment.exchange.data.ExchangeRates
-import com.example.assignment.retrofit.CurrencyRetrofitService
-import io.reactivex.Single
+import io.reactivex.Maybe
+import io.reactivex.Observable
 
-data class ExchangeRatesModel(
-    private val apiService: CurrencyRetrofitService
-) {
-    fun downloadExchangeRates(): Single<ExchangeRates> {
-        return apiService.getExchangeRates(BuildConfig.API_KEY)
-    }
+interface ExchangeRatesModel {
+    fun downloadExchangeRates(): Observable<ExchangeRates>
+
+    fun downloadRatesForDate(date: String): Maybe<ExchangeRates>
 }
