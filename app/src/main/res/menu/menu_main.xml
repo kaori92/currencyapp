@@ -5,6 +5,13 @@
     tools:context=".exchange.view.ExchangeActivity">
 
     <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="300"
+        android:title="Exchange for date"
+        android:icon="@drawable/ic_trash_24px"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_exchange_timer"
         android:orderInCategory="300"
         android:title="Exchange for date"

@@ -14,6 +14,7 @@ import com.example.assignment.exchange.adapters.ExchangeAdapter
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.presenter.ExchangePresenter
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolActivity
+import com.example.assignment.jsonplaceholder.view.PostActivity
 import com.example.assignment.symbols.view.SymbolActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.presenter.InjectPresenter
@@ -36,7 +37,7 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(findViewById(R.id.my_toolbar));
+        setSupportActionBar(findViewById(R.id.my_toolbar))
     }
 
     override fun onResume() {
@@ -79,10 +80,17 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
         R.id.action_exchange_symbols -> handleExchangeSymbolSelected()
         R.id.action_exchange_timer -> handleExchangeTimerSelected()
         R.id.action_exchange_date -> handleExchangeDateSelected()
+        R.id.action_delete -> handleDeleteSelected()
 
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun handleDeleteSelected(): Boolean {
+        val intent = Intent(this, PostActivity::class.java)
+        startActivity(intent)
+        return true
     }
 
     private fun handleExchangeDateSelected(): Boolean {

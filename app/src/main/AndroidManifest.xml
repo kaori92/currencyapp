@@ -22,6 +22,7 @@
         </activity>
 
         <activity android:name=".symbols.view.SymbolActivity" />
+        <activity android:name=".jsonplaceholder.view.PostActivity" />
 
         <activity android:name=".exchangeSymbols.view.ExchangeSymbolActivity">
             <intent-filter>

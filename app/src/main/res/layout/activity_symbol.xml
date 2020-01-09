@@ -7,22 +7,22 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/baseTextView"
-        android:layout_width="49dp"
-        android:layout_height="26dp"
-        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="ALL" />
+        tools:text="@string/example_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="@dimen/top_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/baseTextView"
-        tools:text="Albanian Lek" />
+        tools:text="@string/example_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

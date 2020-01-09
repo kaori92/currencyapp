@@ -1,7 +1,9 @@
 package com.example.assignment.di
 
 import com.example.assignment.api.CurrencyRetrofitService
-import com.example.assignment.core.API_URL
+import com.example.assignment.api.PostsRetrofitService
+import com.example.assignment.core.CURRENCY_API_URL
+import com.example.assignment.core.JSON_API_URL
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -16,7 +18,7 @@ object NetworkModule {
 
     @JvmStatic
     @Provides
-    fun provideRetrofitService(): CurrencyRetrofitService {
+    fun provideCurrencyRetrofitService(): CurrencyRetrofitService {
         val gson = GsonBuilder()
             .setLenient()
             .create()
@@ -26,11 +28,31 @@ object NetworkModule {
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
         return Retrofit.Builder()
-            .baseUrl(API_URL)
+            .baseUrl(CURRENCY_API_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
             .create(CurrencyRetrofitService::class.java)
+    }
+
+    @JvmStatic
+    @Provides
+    fun provideJsonRetrofitService(): PostsRetrofitService {
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        val interceptor = HttpLoggingInterceptor().also {
+            it.level = HttpLoggingInterceptor.Level.BODY
+        }
+        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+        return Retrofit.Builder()
+            .baseUrl(JSON_API_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+            .create(PostsRetrofitService::class.java)
     }
 }

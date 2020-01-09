@@ -1,10 +1,10 @@
-package com.example.assignment.core
+package com.example.assignment.jsonplaceholder.view
 
-import moxy.MvpView
+import com.example.assignment.core.BaseView
 import moxy.viewstate.strategy.AddToEndStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
-interface BaseView : MvpView {
+interface PostView : BaseView {
     @StateStrategyType(AddToEndStrategy::class)
-    fun showError(error: Throwable)
+    fun setUpView()
 }

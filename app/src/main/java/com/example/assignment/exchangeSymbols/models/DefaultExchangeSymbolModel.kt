@@ -3,6 +3,7 @@ package com.example.assignment.exchangeSymbols.models
 import android.util.Log
 import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.core.SchedulerProvider
+import com.example.assignment.core.TAG
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolView
 import com.example.assignment.symbols.data.SymbolsMap
@@ -39,7 +40,7 @@ class DefaultExchangeSymbolModel(
                 viewState.setUpRecyclerView(it)
             }, {
                 viewState.showError(it)
-                Log.e("TAG", "Failure getting rates ${it?.message}")
+                Log.e(TAG, "Failure getting rates ${it?.message}")
             })
     }
 
