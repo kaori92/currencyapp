@@ -7,28 +7,28 @@
     <item
         android:id="@+id/action_delete"
         android:orderInCategory="300"
-        android:title="Exchange for date"
+        android:title="@string/delete_post"
         android:icon="@drawable/ic_trash_24px"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_exchange_timer"
         android:orderInCategory="300"
-        android:title="Exchange for date"
+        android:title="@string/exchange_timer"
         android:icon="@drawable/ic_timer_24px"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_exchange_date"
         android:orderInCategory="300"
-        android:title="Exchange for date"
+        android:title="@string/exchange_for_date"
         android:icon="@drawable/ic_calendar_today_24px"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_exchange_symbols"
         android:orderInCategory="300"
-        android:title="Exchange symbols"
+        android:title="@string/exchange_symbols"
         android:icon="@drawable/ic_euro_symbol_24px"
         app:showAsAction="always" />
 

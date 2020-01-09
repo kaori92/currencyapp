@@ -39,6 +39,14 @@ class PostActivity : BaseActivity(), PostView {
         postPresenter.subjectExample(findViewById(R.id.subject_text_view))
     }
 
+    fun showFlatMapExample(view: View) {
+        postPresenter.flatMapExample(findViewById(R.id.flat_map_text_view))
+    }
+
+    fun showMapExample(view: View) {
+        postPresenter.mapExample(findViewById(R.id.map_text_view))
+    }
+
     override fun setUpView() {
         val textView = findViewById<TextView>(R.id.deleted_text_view)
         textView.text = "Deleted"

@@ -81,18 +81,6 @@ class ExchangeRatesModelTest : Spek({
             }
         }
 
-        context("when empty exchange rates is returned for date by api") {
-
-            beforeEachTest {
-                given(apiService.getRatesForDate(date)).willReturn(Maybe.empty())
-                testObserver = model.downloadRatesForDate(date).test()
-            }
-
-            it("should return empty exchange rates") {
-                testObserver.assertNoValues()
-            }
-        }
-
         context("when error is returned by api") {
             val error =
                 Throwable("java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": No address associated with hostname")

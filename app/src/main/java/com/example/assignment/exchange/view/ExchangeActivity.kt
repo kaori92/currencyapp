@@ -88,6 +88,7 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
     }
 
     private fun handleDeleteSelected(): Boolean {
+        exchangePresenter.diposeOfTimer()
         val intent = Intent(this, PostActivity::class.java)
         startActivity(intent)
         return true

@@ -3,4 +3,11 @@
     <string name="example_text">Example text</string>
     <string name="show_subject">Show subject</string>
     <string name="loading">Loading...</string>
+    <string name="exchange_timer">Exchange timer</string>
+    <string name="delete_post">Delete post</string>
+    <string name="show_map_operators">Show map operators</string>
+    <string name="exchange_for_date">Exchange for date</string>
+    <string name="exchange_symbols">Exchange symbols</string>
+    <string name="show_flatmap">Show flatMap</string>
+    <string name="show_map">Show map</string>
 </resources>
