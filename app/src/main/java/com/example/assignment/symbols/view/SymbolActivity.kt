@@ -10,8 +10,7 @@ import kotlinx.android.synthetic.main.activity_symbol.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
-class SymbolActivity : BaseActivity(),
-    SymbolView {
+class SymbolActivity : BaseActivity(), SymbolView {
 
     @ProvidePresenter
     fun providePresenter(): SymbolPresenter = component.presenter()
@@ -29,8 +28,7 @@ class SymbolActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_symbol)
 
-        //symbolPresenter.getSymbols()
-        symbolPresenter.getSymbolsFlowable()
+        symbolPresenter.getSymbols()
     }
 
     override fun setSymbols(symbolsMap: SymbolsMap) {

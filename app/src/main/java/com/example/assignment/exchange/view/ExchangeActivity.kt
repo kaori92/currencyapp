@@ -2,20 +2,24 @@ package com.example.assignment.exchange.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
 import com.example.assignment.core.MyApplication
+import com.example.assignment.core.TIMER_PERIOD
 import com.example.assignment.exchange.adapters.ExchangeAdapter
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.presenter.ExchangePresenter
+import com.example.assignment.exchangeSymbols.view.ExchangeSymbolActivity
 import com.example.assignment.symbols.view.SymbolActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
 class ExchangeActivity : BaseActivity(), ExchangeView {
-
     private val component by lazy {
         (applicationContext as MyApplication).appComponent
             .requestExchangeComponentBuilder()
@@ -31,6 +35,8 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(findViewById(R.id.my_toolbar));
     }
 
     override fun onResume() {
@@ -63,4 +69,47 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
 
         recyclerView.adapter?.notifyDataSetChanged()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_exchange_symbols -> handleExchangeSymbolSelected()
+        R.id.action_exchange_timer -> handleExchangeTimerSelected()
+        R.id.action_exchange_date -> handleExchangeDateSelected()
+
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun handleExchangeDateSelected(): Boolean {
+        exchangePresenter.diposeOfTimer()
+        Toast.makeText(this, "Showing rates for date 2013-12-24", Toast.LENGTH_LONG).show()
+        exchangePresenter.getRatesForDate("2013-12-24")
+        return true
+    }
+
+    private fun handleExchangeTimerSelected(): Boolean {
+        Toast.makeText(this, "Showing rates every $TIMER_PERIOD seconds", Toast.LENGTH_LONG)
+            .show()
+        exchangePresenter.getExchangeRatesPeriodically(this)
+        return true
+    }
+
+    private fun handleExchangeSymbolSelected(): Boolean {
+        exchangePresenter.diposeOfTimer()
+        Toast.makeText(this, "Going to exchange and symbols activity", Toast.LENGTH_LONG).show()
+        val intent = Intent(this, ExchangeSymbolActivity::class.java)
+        startActivity(intent)
+        return true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        exchangePresenter.diposeOfTimer()
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.assignment.exchange.di
 
 import com.example.assignment.api.CurrencyRetrofitService
+import com.example.assignment.core.AndroidSchedulerProvider
 import com.example.assignment.exchange.models.DefaultExchangeRatesModel
 import com.example.assignment.exchange.models.ExchangeRatesModel
 import com.example.assignment.exchange.presenter.ExchangePresenter
@@ -22,5 +23,5 @@ object ExchangeModule {
     fun providePresenter(
         model: ExchangeRatesModel
     ): ExchangePresenter =
-        ExchangePresenter(model)
+        ExchangePresenter(model, AndroidSchedulerProvider)
 }

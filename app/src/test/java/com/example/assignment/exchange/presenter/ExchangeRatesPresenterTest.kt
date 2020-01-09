@@ -1,21 +1,28 @@
 package com.example.assignment.exchange.presenter
 
+import com.example.assignment.core.SchedulerProvider
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.models.ExchangeRatesModel
+import com.example.assignment.exchange.view.ExchangeView
+import com.example.assignment.exchange.view.`ExchangeView$$State`
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.observers.TestObserver
+import io.reactivex.schedulers.Schedulers
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
 class ExchangeRatesPresenterTest : Spek({
-    lateinit var testObserver: TestObserver<ExchangeRates>
+    val schedulerProvider: SchedulerProvider by memoized { mock<SchedulerProvider>() }
     val model: ExchangeRatesModel by memoized { mock<ExchangeRatesModel>() }
+    val view: ExchangeView by memoized { mock<ExchangeView>() }
+    val viewState: `ExchangeView$$State` by memoized { mock<`ExchangeView$$State`>() }
 
     val presenter: ExchangePresenter by memoized {
-        ExchangePresenter(model)
+        ExchangePresenter(model, schedulerProvider)
     }
 
     describe("downloading exchange rates") {
@@ -23,71 +30,69 @@ class ExchangeRatesPresenterTest : Spek({
             1577795046, "2019-12-31", "USD", mapOf("AED" to 4.125458)
         )
 
-        context("when correct exchange rates object is returned by api") {
+        context("when presenter gets exchange rates") {
 
             beforeEachTest {
+                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
+                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
+                presenter.setViewState(viewState)
+                presenter.attachView(view)
+
                 given(model.downloadExchangeRates()).willReturn(Observable.just(rates))
-                testObserver = presenter.getExchangeRates().test()
+                presenter.getExchangeRates()
             }
 
-            it("should get the same exchange rates") {
-                testObserver.assertComplete()
-                testObserver.assertResult(rates)
-            }
-        }
-
-        context("when empty object is returned by api") {
-            beforeEachTest {
-                given(model.downloadExchangeRates()).willReturn(Observable.empty())
-                testObserver = presenter.getExchangeRates().test()
-            }
-
-            it("should return empty") {
-                testObserver.assertNoValues()
+            it("should call view setUpRecyclerView") {
+                verify(viewState).setUpRecyclerView(rates)
             }
         }
 
         context("when error is returned by api") {
             val error =
-                Throwable("java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": No address associated with hostname")
+                Throwable(
+                    "java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\":" +
+                            " No address associated with hostname"
+                )
 
             beforeEachTest {
+                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
+                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
+                presenter.setViewState(viewState)
+                presenter.attachView(view)
                 given(model.downloadExchangeRates()).willReturn(Observable.error(error))
-                testObserver = presenter.getExchangeRates().test()
+
+                presenter.getExchangeRates()
             }
 
-            it("should return empty exchange rates") {
-                testObserver.assertError(error)
+            it("should show error") {
+                verify(viewState).showError(any())
             }
         }
     }
 
     describe("downloading exchange rates for date") {
         val date = "2013-12-24"
-        val ratesMap = mapOf("AED" to 4.125458)
-        val rates = ExchangeRates(1577795046, date, "USD", ratesMap)
+        val rates = ExchangeRates(
+            1577795046,
+            date,
+            "USD",
+            mapOf("AED" to 4.125458)
+        )
 
-        context("when correct exchange rates object for date is returned by api") {
+        context("when presenter gets exchange rates for date") {
 
             beforeEachTest {
+                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
+                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
                 given(model.downloadRatesForDate(date)).willReturn(Maybe.just(rates))
-                testObserver = presenter.getRatesForDate(date).test()
+                presenter.setViewState(viewState)
+                presenter.attachView(view)
+
+                presenter.getRatesForDate(date)
             }
 
-            it("should get the same exchange rates") {
-                testObserver.assertComplete()
-                testObserver.assertResult(rates)
-            }
-        }
-
-        context("when empty object is returned for date by api") {
-            beforeEachTest {
-                given(model.downloadRatesForDate(date)).willReturn(Maybe.empty())
-                testObserver = presenter.getRatesForDate(date).test()
-            }
-
-            it("should return empty") {
-                testObserver.assertNoValues()
+            it("should call view setUpRecyclerView") {
+                verify(viewState).setUpRecyclerView(rates)
             }
         }
 
@@ -96,12 +101,16 @@ class ExchangeRatesPresenterTest : Spek({
                 Throwable("java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": No address associated with hostname")
 
             beforeEachTest {
+                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
+                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
+                presenter.setViewState(viewState)
+                presenter.attachView(view)
                 given(model.downloadRatesForDate(date)).willReturn(Maybe.error(error))
-                testObserver = presenter.getRatesForDate(date).test()
+                presenter.getRatesForDate(date)
             }
 
             it("should return empty exchange rates") {
-                testObserver.assertError(error)
+                verify(viewState).showError(any())
             }
         }
     }

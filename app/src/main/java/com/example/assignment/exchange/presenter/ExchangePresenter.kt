@@ -1,14 +1,13 @@
 package com.example.assignment.exchange.presenter
 
-import com.example.assignment.exchange.data.ExchangeRates
+import android.widget.Toast
+import com.example.assignment.core.SchedulerProvider
+import com.example.assignment.core.TIMER_PERIOD
 import com.example.assignment.exchange.models.ExchangeRatesModel
 import com.example.assignment.exchange.view.ExchangeActivity
 import com.example.assignment.exchange.view.ExchangeView
-import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
@@ -16,17 +15,15 @@ import java.util.logging.Logger
 
 @InjectViewState
 class ExchangePresenter(
-    private val model: ExchangeRatesModel
+    private val model: ExchangeRatesModel,
+    private val schedulerProvider: SchedulerProvider
 ) : MvpPresenter<ExchangeView>() {
+    private var disposable: Disposable? = null
 
-    fun getExchangeRates(): Observable<ExchangeRates> {
-        val observable = model.downloadExchangeRates()
-            .observeOn(Schedulers.trampoline()) // tests
-//             .observeOn(AndroidSchedulers.mainThread()) // run app
-//            .subscribeOn(Schedulers.io()) // run app
-            .subscribeOn(Schedulers.trampoline()) // tests
-
-        observable
+    fun getExchangeRates() {
+        model.downloadExchangeRates()
+            .observeOn(schedulerProvider.main())
+            .subscribeOn(schedulerProvider.io())
             .subscribe({
                 viewState.setUpRecyclerView(it)
             }, {
@@ -34,17 +31,25 @@ class ExchangePresenter(
                 Logger.getLogger(ExchangeActivity::class.java.name)
                     .warning("Failure getting rates ${it?.message}")
             })
-
-        return observable
     }
 
-    fun getExchangeRatesPeriodically(): Disposable {
-        return Observable.interval(5, TimeUnit.SECONDS)
+    fun diposeOfTimer() {
+        disposable?.let {
+            if (!it.isDisposed) {
+                it.dispose()
+            }
+        }
+    }
+
+    fun getExchangeRatesPeriodically(activity: ExchangeActivity) {
+        disposable = Observable.interval(TIMER_PERIOD.toLong(), TimeUnit.SECONDS)
             .timeInterval()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(schedulerProvider.main())
+            .subscribeOn(schedulerProvider.io())
             .subscribe({
                 Logger.getLogger(ExchangeActivity::class.java.name)
                     .warning("Getting exchange rates")
+                Toast.makeText(activity, "Refreshing exchange rates", Toast.LENGTH_SHORT).show()
                 getExchangeRates()
             }, {
                 viewState.showError(it)
@@ -53,25 +58,14 @@ class ExchangePresenter(
             })
     }
 
-    fun getRatesForDate(date: String): Maybe<ExchangeRates> {
-        val observable = model.downloadRatesForDate(date)
-            .observeOn(Schedulers.trampoline()) // tests
-//             .observeOn(AndroidSchedulers.mainThread()) // run app
-//            .subscribeOn(Schedulers.io()) // run app
-            .subscribeOn(Schedulers.trampoline()) // tests
-
-        observable.subscribe({
-            Logger.getLogger(ExchangeActivity::class.java.name).info("Item received")
-            viewState.setUpRecyclerView(it)
-        }, {
-            viewState.showError(it)
-            Logger.getLogger(ExchangeActivity::class.java.name)
-                .warning("Failure getting rates for date ${it?.message}")
-        }, {
-            Logger.getLogger(ExchangeActivity::class.java.name)
-                .info("Done getting rates for date")
-        })
-
-        return observable
+    fun getRatesForDate(date: String) {
+        model.downloadRatesForDate(date)
+            .observeOn(schedulerProvider.main())
+            .subscribeOn(schedulerProvider.io())
+            .subscribe({
+                viewState.setUpRecyclerView(it)
+            }, {
+                viewState.showError(it)
+            })
     }
 }

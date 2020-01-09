@@ -48,7 +48,10 @@ class ExchangeRatesModelTest : Spek({
 
         context("when error is returned by api") {
             val error =
-                Throwable("java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": No address associated with hostname")
+                Throwable(
+                    "java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": " +
+                            "No address associated with hostname"
+                )
 
             beforeEachTest {
                 given(apiService.getExchangeRates()).willReturn(Observable.error(error))

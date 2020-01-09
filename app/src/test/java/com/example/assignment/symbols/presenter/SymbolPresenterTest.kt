@@ -1,47 +1,46 @@
 package com.example.assignment.symbols.presenter
 
+import com.example.assignment.core.SchedulerProvider
 import com.example.assignment.symbols.data.SymbolsMap
 import com.example.assignment.symbols.models.SymbolModel
+import com.example.assignment.symbols.view.SymbolView
+import com.example.assignment.symbols.view.`SymbolView$$State`
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
-import io.reactivex.Observable
-import io.reactivex.observers.TestObserver
-import io.reactivex.subscribers.TestSubscriber
+import com.nhaarman.mockitokotlin2.verify
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
 class SymbolPresenterTest : Spek({
+    val schedulerProvider: SchedulerProvider by memoized { mock<SchedulerProvider>() }
     val model: SymbolModel by memoized { mock<SymbolModel>() }
+    val view: SymbolView by memoized { mock<SymbolView>() }
+    val viewState: `SymbolView$$State` by memoized { mock<`SymbolView$$State`>() }
 
     val presenter: SymbolPresenter by memoized {
-        SymbolPresenter(model)
+        SymbolPresenter(model, schedulerProvider)
     }
 
     describe("downloading symbols") {
-        lateinit var testObserver: TestObserver<SymbolsMap>
 
-        context("when symbols are provided") {
+        context("when presenter gets symbols") {
             val symbols = SymbolsMap(mapOf("PLN" to "Polish Zloty"))
 
             beforeEachTest {
-                given(model.downloadSymbols()).willReturn(Observable.just(symbols))
-                testObserver = presenter.getSymbols().test()
+                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
+                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
+                presenter.setViewState(viewState)
+                presenter.attachView(view)
+                given(model.downloadSymbols()).willReturn(Single.just(symbols))
+
+                presenter.getSymbols()
             }
 
-            it("should return correct symbols") {
-                testObserver.assertComplete()
-                testObserver.assertResult(symbols)
-            }
-        }
-
-        context("when empty symbols are returned by api") {
-            beforeEachTest {
-                given(model.downloadSymbols()).willReturn(Observable.empty())
-                testObserver = presenter.getSymbols().test()
-            }
-
-            it("should return empty") {
-                testObserver.assertNoValues()
+            it("should call view setUpRecyclerView") {
+                verify(viewState).setSymbols(symbols)
             }
         }
 
@@ -50,56 +49,19 @@ class SymbolPresenterTest : Spek({
                 Throwable("java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": No address associated with hostname")
 
             beforeEachTest {
-                given(model.downloadSymbols()).willReturn(Observable.error(error))
-                testObserver = presenter.getSymbols().test()
+                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
+                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
+                presenter.setViewState(viewState)
+                presenter.attachView(view)
+                given(model.downloadSymbols()).willReturn(Single.error(error))
+
+                presenter.getSymbols()
             }
 
-            it("should return empty exchange rates") {
-                testObserver.assertError(error)
-            }
-        }
-    }
-
-    describe("downloading symbols flowable") {
-        lateinit var testSubscriber: TestSubscriber<SymbolsMap>
-
-        context("when symbols flowable are provided") {
-            val symbols = SymbolsMap(mapOf("PLN" to "Polish Zloty"))
-
-            beforeEachTest {
-                given(model.downloadSymbols()).willReturn(Observable.just(symbols))
-                testSubscriber = presenter.getSymbolsFlowable().test()
-            }
-
-            it("should return correct symbols") {
-                testSubscriber.assertComplete()
-                testSubscriber.assertResult(symbols)
-            }
-        }
-
-        context("when empty symbols are returned by api") {
-            beforeEachTest {
-                given(model.downloadSymbols()).willReturn(Observable.empty())
-                testSubscriber = presenter.getSymbolsFlowable().test()
-            }
-
-            it("should return empty") {
-                testSubscriber.assertNoValues()
-            }
-        }
-
-        context("when error is returned by api") {
-            val error =
-                Throwable("java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": No address associated with hostname")
-
-            beforeEachTest {
-                given(model.downloadSymbols()).willReturn(Observable.error(error))
-                testSubscriber = presenter.getSymbolsFlowable().test()
-            }
-
-            it("should return empty exchange rates") {
-                testSubscriber.assertError(error)
+            it("should show error") {
+                verify(viewState).showError(any())
             }
         }
     }
+
 })
