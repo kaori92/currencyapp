@@ -1,4 +1,4 @@
-package com.example.assignment.jsonplaceholder.models
+package com.example.assignment.posts.models
 
 import io.reactivex.Completable
 

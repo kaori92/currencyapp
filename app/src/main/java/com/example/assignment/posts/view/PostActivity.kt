@@ -1,4 +1,4 @@
-package com.example.assignment.jsonplaceholder.view
+package com.example.assignment.posts.view
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,9 @@ import android.widget.TextView
 import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
 import com.example.assignment.core.MyApplication
-import com.example.assignment.jsonplaceholder.presenter.PostPresenter
+import com.example.assignment.posts.presenter.PostPresenter
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
@@ -32,24 +34,39 @@ class PostActivity : BaseActivity(), PostView {
     override fun onResume() {
         super.onResume()
 
-        postPresenter.deletePost(this)
+        postPresenter.deletePost()
     }
 
     fun showSubjectExample(view: View) {
-        postPresenter.subjectExample(findViewById(R.id.subject_text_view))
+        val source = PublishSubject.create<Int>()
+        postPresenter.subjectExample(source)
     }
 
     fun showFlatMapExample(view: View) {
-        postPresenter.flatMapExample(findViewById(R.id.flat_map_text_view))
+        val textToSplit = "First/Second/Third"
+        postPresenter.flatMapExample(textToSplit)
     }
 
     fun showMapExample(view: View) {
-        postPresenter.mapExample(findViewById(R.id.map_text_view))
+        val observable = Observable.range(1, 6)
+        postPresenter.mapExample(observable)
     }
 
     override fun setUpView() {
         val textView = findViewById<TextView>(R.id.deleted_text_view)
         textView.text = "Deleted"
+    }
+
+    override fun appendTextFlatMap(text: String) {
+        findViewById<TextView>(R.id.flat_map_text_view).append(text)
+    }
+
+    override fun appendTextMap(text: String) {
+        findViewById<TextView>(R.id.map_text_view).append(text)
+    }
+
+    override fun appendTextSubject(text: StringBuffer) {
+        findViewById<TextView>(R.id.subject_text_view).append(text)
     }
 
 }

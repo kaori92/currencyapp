@@ -14,7 +14,7 @@ import com.example.assignment.exchange.adapters.ExchangeAdapter
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.presenter.ExchangePresenter
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolActivity
-import com.example.assignment.jsonplaceholder.view.PostActivity
+import com.example.assignment.posts.view.PostActivity
 import com.example.assignment.symbols.view.SymbolActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.presenter.InjectPresenter

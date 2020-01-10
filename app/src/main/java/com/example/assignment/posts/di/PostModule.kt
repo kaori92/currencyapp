@@ -1,10 +1,10 @@
-package com.example.assignment.jsonplaceholder.di
+package com.example.assignment.posts.di
 
 import com.example.assignment.api.PostsRetrofitService
 import com.example.assignment.core.AndroidSchedulerProvider
-import com.example.assignment.jsonplaceholder.models.DefaultPostModel
-import com.example.assignment.jsonplaceholder.models.PostModel
-import com.example.assignment.jsonplaceholder.presenter.PostPresenter
+import com.example.assignment.posts.models.DefaultPostModel
+import com.example.assignment.posts.models.PostModel
+import com.example.assignment.posts.presenter.PostPresenter
 import dagger.Module
 import dagger.Provides
 
