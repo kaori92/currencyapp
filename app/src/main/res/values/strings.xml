@@ -10,4 +10,6 @@
     <string name="exchange_symbols">Exchange symbols</string>
     <string name="show_flatmap">Show flatMap</string>
     <string name="show_map">Show map</string>
+    <string name="show_switch_map">Show switch map</string>
+    <string name="show_concat_map">Show concat map</string>
 </resources>

@@ -44,8 +44,42 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/show_map" />
 
+    <Button
+        android:id="@+id/switch_map_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:onClick="showSwitchMapExample"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/show_switch_map" />
+
+    <Button
+        android:id="@+id/concat_map_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:onClick="showConcatMapExample"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/show_concat_map" />
+
     <TextView
         android:id="@+id/subject_text_view"
+        android:inputType="textMultiLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        tools:text="@string/example_text" />
+
+    <TextView
+        android:id="@+id/switch_map_text_view"
+        android:inputType="textMultiLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        tools:text="@string/example_text" />
+
+    <TextView
+        android:id="@+id/concat_map_text_view"
         android:inputType="textMultiLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

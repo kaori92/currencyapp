@@ -18,7 +18,6 @@ import io.reactivex.subjects.PublishSubject
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
-
 class PostPresenterTest : Spek({
     val schedulerProvider: SchedulerProvider by memoized { mock<SchedulerProvider>() }
     val model: PostModel by memoized { mock<PostModel>() }
@@ -91,12 +90,52 @@ class PostPresenterTest : Spek({
         }
     }
 
+    describe("Switch map") {
+        context("when switch map is called with a list of characters") {
+            val list = listOf("a", "b", "c", "d", "e", "f")
+            val expected = "fx"
+
+            beforeEachTest {
+                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
+                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
+
+                presenter.setViewState(viewState)
+                presenter.attachView(view)
+
+                presenter.switchMapExample(list)
+            }
+
+            it("returns correct output") {
+                verify(viewState).setTextSwitchMap(expected)
+            }
+        }
+    }
+
+    describe("Concat map") {
+        context("when concat map is called with a list of characters") {
+            val list = listOf("a", "b", "c", "d", "e", "f")
+            val expected = "[ax, bx, cx, dx, ex, fx]"
+
+            beforeEachTest {
+                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
+                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
+
+                presenter.setViewState(viewState)
+                presenter.attachView(view)
+
+                presenter.concatMapExample(list)
+            }
+
+            it("returns correct output") {
+                verify(viewState).appendTextConcatMap(expected)
+            }
+        }
+    }
+
     describe("Map") {
         context("when map is called with an observable of integers ") {
             val observable = Observable.range(1, 3)
-            val first = 2
-            val second = 4
-            val third = 6
+            val expected = "[2, 4, 6]"
 
             beforeEachTest {
                 given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
@@ -109,9 +148,7 @@ class PostPresenterTest : Spek({
             }
 
             it("returns correct output") {
-                verify(viewState).appendTextMap(first.toString() + LINE_SEPARATOR)
-                verify(viewState).appendTextMap(second.toString() + LINE_SEPARATOR)
-                verify(viewState).appendTextMap(third.toString() + LINE_SEPARATOR)
+                verify(viewState).appendTextMap(expected + LINE_SEPARATOR)
             }
         }
     }

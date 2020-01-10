@@ -8,10 +8,13 @@ import com.example.assignment.posts.models.PostModel
 import com.example.assignment.posts.observers.ExampleObserver
 import com.example.assignment.posts.view.PostView
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.subjects.PublishSubject
 import moxy.InjectViewState
 import moxy.MvpPresenter
+import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
+import kotlin.random.Random
 
 @InjectViewState
 class PostPresenter(
@@ -66,12 +69,45 @@ class PostPresenter(
             })
     }
 
+    fun transform(text: String): ObservableSource<String> {
+        val delay = Random.nextLong(3)
+        return Observable
+            .just(text + "x")
+            .delay(delay, TimeUnit.SECONDS)
+    }
+
     fun mapExample(observable: Observable<Int>) {
         observable.map { number -> number * 2 }
+            .toList()
             .observeOn(schedulerProvider.main())
             .subscribeOn(schedulerProvider.io())
             .subscribe({ item ->
                 viewState.appendTextMap(item.toString() + LINE_SEPARATOR)
+            }, {
+                Log.d(TAG, "FAILURE: ${it.message}")
+            })
+    }
+
+    fun switchMapExample(list: List<String>) {
+        Observable.fromIterable(list)
+            .switchMap { input -> Observable.just(input + "x") }
+            .observeOn(schedulerProvider.main())
+            .subscribeOn(schedulerProvider.io())
+            .subscribe({ item ->
+                viewState.setTextSwitchMap(item.toString())
+            }, {
+                Log.d(TAG, "FAILURE: ${it.message}")
+            })
+    }
+
+    fun concatMapExample(list: List<String>) {
+        Observable.fromIterable(list)
+            .concatMap { input -> Observable.just(input + "x") }
+            .toList()
+            .observeOn(schedulerProvider.main())
+            .subscribeOn(schedulerProvider.io())
+            .subscribe({ item ->
+                viewState.appendTextConcatMap(item.toString())
             }, {
                 Log.d(TAG, "FAILURE: ${it.message}")
             })

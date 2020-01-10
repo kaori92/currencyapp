@@ -52,6 +52,16 @@ class PostActivity : BaseActivity(), PostView {
         postPresenter.mapExample(observable)
     }
 
+    fun showSwitchMapExample(view: View) {
+        val list = listOf("a", "b", "c", "d", "e", "f")
+        postPresenter.switchMapExample(list)
+    }
+
+    fun showConcatMapExample(view: View) {
+        val list = listOf("a", "b", "c", "d", "e", "f")
+        postPresenter.concatMapExample(list)
+    }
+
     override fun setUpView() {
         val textView = findViewById<TextView>(R.id.deleted_text_view)
         textView.text = "Deleted"
@@ -61,12 +71,20 @@ class PostActivity : BaseActivity(), PostView {
         findViewById<TextView>(R.id.flat_map_text_view).append(text)
     }
 
+    override fun appendTextConcatMap(text: String) {
+        findViewById<TextView>(R.id.concat_map_text_view).append(text)
+    }
+
     override fun appendTextMap(text: String) {
         findViewById<TextView>(R.id.map_text_view).append(text)
     }
 
     override fun appendTextSubject(text: String) {
         findViewById<TextView>(R.id.subject_text_view).append(text)
+    }
+
+    override fun setTextSwitchMap(text: String) {
+        findViewById<TextView>(R.id.switch_map_text_view).text = text
     }
 
 }
