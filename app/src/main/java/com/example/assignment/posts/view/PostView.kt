@@ -15,5 +15,5 @@ interface PostView : BaseView {
     fun appendTextMap(text: String)
 
     @StateStrategyType(AddToEndStrategy::class)
-    fun appendTextSubject(text: StringBuffer)
+    fun appendTextSubject(text: String)
 }

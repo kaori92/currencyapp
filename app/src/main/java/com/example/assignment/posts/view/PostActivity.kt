@@ -65,7 +65,7 @@ class PostActivity : BaseActivity(), PostView {
         findViewById<TextView>(R.id.map_text_view).append(text)
     }
 
-    override fun appendTextSubject(text: StringBuffer) {
+    override fun appendTextSubject(text: String) {
         findViewById<TextView>(R.id.subject_text_view).append(text)
     }
 

@@ -5,3 +5,4 @@ const val JSON_API_URL = "https://jsonplaceholder.typicode.com/"
 const val TIMER_PERIOD = 5
 const val TAG = "TAG123"
 const val LINE_SEPARATOR = "\n"
+const val TEXT_SEPARATOR = "#"

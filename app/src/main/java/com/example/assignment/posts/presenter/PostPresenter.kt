@@ -50,7 +50,7 @@ class PostPresenter(
         source.onNext(4)
         source.onComplete()
 
-        viewState.appendTextSubject(text)
+        viewState.appendTextSubject(text.toString())
     }
 
     fun flatMapExample(textToSplit: String) {
