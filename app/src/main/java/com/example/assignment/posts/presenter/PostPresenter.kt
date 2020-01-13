@@ -8,13 +8,10 @@ import com.example.assignment.posts.models.PostModel
 import com.example.assignment.posts.observers.ExampleObserver
 import com.example.assignment.posts.view.PostView
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.subjects.PublishSubject
 import moxy.InjectViewState
 import moxy.MvpPresenter
-import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
-import kotlin.random.Random
 
 @InjectViewState
 class PostPresenter(
@@ -67,13 +64,6 @@ class PostPresenter(
             }, {
                 Log.d(TAG, "FAILURE: ${it.message}")
             })
-    }
-
-    fun transform(text: String): ObservableSource<String> {
-        val delay = Random.nextLong(3)
-        return Observable
-            .just(text + "x")
-            .delay(delay, TimeUnit.SECONDS)
     }
 
     fun mapExample(observable: Observable<Int>) {

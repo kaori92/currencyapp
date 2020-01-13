@@ -42,6 +42,8 @@ class ExchangePresenter(
     }
 
     fun getExchangeRatesPeriodically(activity: ExchangeActivity) {
+        getExchangeRates()
+
         disposable = Observable.interval(TIMER_PERIOD.toLong(), TimeUnit.SECONDS)
             .timeInterval()
             .observeOn(schedulerProvider.main())
