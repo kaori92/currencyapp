@@ -1,38 +1,39 @@
 package com.example.assignment.posts.presenter
 
-import android.util.Log
+import com.example.assignment.core.BasePresenter
 import com.example.assignment.core.LINE_SEPARATOR
+import com.example.assignment.core.LogService
 import com.example.assignment.core.SchedulerProvider
-import com.example.assignment.core.TAG
 import com.example.assignment.posts.models.PostModel
 import com.example.assignment.posts.observers.ExampleObserver
 import com.example.assignment.posts.view.PostView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import moxy.InjectViewState
-import moxy.MvpPresenter
-import java.util.logging.Logger
 
 @InjectViewState
 class PostPresenter(
     private val model: PostModel,
-    private val schedulerProvider: SchedulerProvider
-) : MvpPresenter<PostView>() {
+    private val schedulerProvider: SchedulerProvider,
+    private val logger: LogService
+) : BasePresenter<PostView>() {
 
     fun deletePost() {
-        model.deletePost()
+        val disposable = model.deletePost()
             .observeOn(schedulerProvider.main())
             .subscribeOn(schedulerProvider.io())
             .subscribe({
                 viewState.setUpView()
             }, {
                 viewState.showError(it)
-                Logger.getLogger(PostPresenter::class.java.name)
-                    .warning("Failure getting rates ${it?.message}")
+                logger.log(PostPresenter::class.java.name, "Failure deleting post ${it?.message}")
             })
+
+        compositeDisposable.add(disposable)
     }
 
-    fun subjectExample(source: PublishSubject<Int>) {
+    fun subjectExample() {
+        val source = PublishSubject.create<Int>()
         val text = StringBuffer("")
 
         source.subscribe(
@@ -51,10 +52,12 @@ class PostPresenter(
         source.onComplete()
 
         viewState.appendTextSubject(text.toString())
+
+        compositeDisposable.add(source.subscribe())
     }
 
-    fun flatMapExample(textToSplit: String) {
-        Observable.just(textToSplit)
+    fun flatMapExample() {
+        val disposable = Observable.just(model.getTextToSplit())
             .flatMap { input -> Observable.fromArray(input.split("/")) }
             .flatMapIterable { items -> items }
             .observeOn(schedulerProvider.main())
@@ -62,36 +65,42 @@ class PostPresenter(
             .subscribe({ item ->
                 viewState.appendTextFlatMap(item + LINE_SEPARATOR)
             }, {
-                Log.d(TAG, "FAILURE: ${it.message}")
+                logger.log(PostPresenter::class.java.name, "Failure in flat map ${it?.message}")
             })
+
+        compositeDisposable.add(disposable)
     }
 
-    fun mapExample(observable: Observable<Int>) {
-        observable.map { number -> number * 2 }
+    fun mapExample() {
+        val disposable = Observable.range(1, 3).map { number -> number * 2 }
             .toList()
             .observeOn(schedulerProvider.main())
             .subscribeOn(schedulerProvider.io())
             .subscribe({ item ->
                 viewState.appendTextMap(item.toString() + LINE_SEPARATOR)
             }, {
-                Log.d(TAG, "FAILURE: ${it.message}")
+                logger.log(PostPresenter::class.java.name, "Failure in map ${it?.message}")
             })
+
+        compositeDisposable.add(disposable)
     }
 
-    fun switchMapExample(list: List<String>) {
-        Observable.fromIterable(list)
+    fun switchMapExample() {
+        val disposable = Observable.fromIterable(listOf("a", "b", "c", "d", "e", "f"))
             .switchMap { input -> Observable.just(input + "x") }
             .observeOn(schedulerProvider.main())
             .subscribeOn(schedulerProvider.io())
             .subscribe({ item ->
                 viewState.setTextSwitchMap(item.toString())
             }, {
-                Log.d(TAG, "FAILURE: ${it.message}")
+                logger.log(PostPresenter::class.java.name, "Failure in switch map ${it?.message}")
             })
+
+        compositeDisposable.add(disposable)
     }
 
-    fun concatMapExample(list: List<String>) {
-        Observable.fromIterable(list)
+    fun concatMapExample() {
+        val disposable = Observable.fromIterable(listOf("a", "b", "c", "d", "e", "f"))
             .concatMap { input -> Observable.just(input + "x") }
             .toList()
             .observeOn(schedulerProvider.main())
@@ -99,7 +108,9 @@ class PostPresenter(
             .subscribe({ item ->
                 viewState.appendTextConcatMap(item.toString())
             }, {
-                Log.d(TAG, "FAILURE: ${it.message}")
+                logger.log(PostPresenter::class.java.name, "Failure in concat map ${it?.message}")
             })
+
+        compositeDisposable.add(disposable)
     }
 }

@@ -21,6 +21,11 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
 class ExchangeActivity : BaseActivity(), ExchangeView {
+
+    override fun showToast(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    }
+
     private val component by lazy {
         (applicationContext as MyApplication).appComponent
             .requestExchangeComponentBuilder()
@@ -96,21 +101,20 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
 
     private fun handleExchangeDateSelected(): Boolean {
         exchangePresenter.diposeOfTimer()
-        Toast.makeText(this, "Showing rates for date 2013-12-24", Toast.LENGTH_LONG).show()
+        showToast("Showing rates for date 2013-12-24")
         exchangePresenter.getRatesForDate("2013-12-24")
         return true
     }
 
     private fun handleExchangeTimerSelected(): Boolean {
-        Toast.makeText(this, "Showing rates every $TIMER_PERIOD seconds", Toast.LENGTH_LONG)
-            .show()
+        showToast("Showing rates every $TIMER_PERIOD seconds")
         exchangePresenter.getExchangeRatesPeriodically(this)
         return true
     }
 
     private fun handleExchangeSymbolSelected(): Boolean {
         exchangePresenter.diposeOfTimer()
-        Toast.makeText(this, "Going to exchange and symbols activity", Toast.LENGTH_LONG).show()
+        showToast("Going to exchange and symbols activity")
         val intent = Intent(this, ExchangeSymbolActivity::class.java)
         startActivity(intent)
         return true

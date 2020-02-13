@@ -1,66 +1,57 @@
 package com.example.assignment.posts.presenter
 
-import com.example.assignment.core.JSON_API_URL
 import com.example.assignment.core.LINE_SEPARATOR
-import com.example.assignment.core.SchedulerProvider
+import com.example.assignment.core.LogService
 import com.example.assignment.core.TEXT_SEPARATOR
+import com.example.assignment.core.TestSchedulerProvider
 import com.example.assignment.posts.models.PostModel
 import com.example.assignment.posts.view.PostView
-import com.example.assignment.posts.view.`PostView$$State`
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
 class PostPresenterTest : Spek({
-    val schedulerProvider: SchedulerProvider by memoized { mock<SchedulerProvider>() }
+
+    val schedulerProvider = TestSchedulerProvider
     val model: PostModel by memoized { mock<PostModel>() }
     val view: PostView by memoized { mock<PostView>() }
-    val viewState: `PostView$$State` by memoized { mock<`PostView$$State`>() }
+    val logger: LogService by memoized { mock<LogService>() }
 
     val presenter: PostPresenter by memoized {
-        PostPresenter(model, schedulerProvider)
+        PostPresenter(model, schedulerProvider, logger)
     }
 
     describe("Deleting posts") {
         context("when presenter deletes post") {
             beforeEachTest {
-                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
-                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
-                presenter.setViewState(viewState)
-                presenter.attachView(view)
                 given(model.deletePost()).willReturn(Completable.complete())
 
+                presenter.attachView(view)
                 presenter.deletePost()
             }
 
             it("should call view setUpRecyclerView") {
-                verify(viewState).setUpView()
+                verify(view).setUpView()
             }
         }
 
         context("when error is returned by api") {
             val error =
-                Throwable("java.net.UnknownHostException: Unable to resolve host $JSON_API_URL: No address associated with hostname")
+                Throwable("error")
 
             beforeEachTest {
-                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
-                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
-                presenter.setViewState(viewState)
-                presenter.attachView(view)
                 given(model.deletePost()).willReturn(Completable.error(error))
 
+                presenter.attachView(view)
                 presenter.deletePost()
             }
 
             it("should show error") {
-                verify(viewState).showError(any())
+                verify(view).showError(any())
             }
         }
     }
@@ -73,102 +64,83 @@ class PostPresenterTest : Spek({
             val third = "Third"
 
             beforeEachTest {
-                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
-                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
+                given(model.getTextToSplit()).willReturn(textToSplit)
 
-                presenter.setViewState(viewState)
                 presenter.attachView(view)
-
-                presenter.flatMapExample(textToSplit)
+                presenter.flatMapExample()
             }
 
-            it("returns correct output") {
-                verify(viewState).appendTextFlatMap(first + LINE_SEPARATOR)
-                verify(viewState).appendTextFlatMap(second + LINE_SEPARATOR)
-                verify(viewState).appendTextFlatMap(third + LINE_SEPARATOR)
+            it("should return correct first element") {
+                verify(view).appendTextFlatMap(first + LINE_SEPARATOR)
+            }
+
+            it("should return correct second element") {
+                verify(view).appendTextFlatMap(second + LINE_SEPARATOR)
+            }
+
+            it("should return correct third element") {
+                verify(view).appendTextFlatMap(third + LINE_SEPARATOR)
             }
         }
     }
 
     describe("Switch map") {
         context("when switch map is called with a list of characters") {
-            val list = listOf("a", "b", "c", "d", "e", "f")
+
             val expected = "fx"
 
             beforeEachTest {
-                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
-                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
-
-                presenter.setViewState(viewState)
                 presenter.attachView(view)
-
-                presenter.switchMapExample(list)
+                presenter.switchMapExample()
             }
 
-            it("returns correct output") {
-                verify(viewState).setTextSwitchMap(expected)
+            it("should return correct output") {
+                verify(view).setTextSwitchMap(expected)
             }
         }
     }
 
     describe("Concat map") {
         context("when concat map is called with a list of characters") {
-            val list = listOf("a", "b", "c", "d", "e", "f")
+
             val expected = "[ax, bx, cx, dx, ex, fx]"
 
             beforeEachTest {
-                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
-                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
-
-                presenter.setViewState(viewState)
                 presenter.attachView(view)
-
-                presenter.concatMapExample(list)
+                presenter.concatMapExample()
             }
 
-            it("returns correct output") {
-                verify(viewState).appendTextConcatMap(expected)
+            it("should return correct output") {
+                verify(view).appendTextConcatMap(expected)
             }
         }
     }
 
     describe("Map") {
         context("when map is called with an observable of integers ") {
-            val observable = Observable.range(1, 3)
             val expected = "[2, 4, 6]"
 
             beforeEachTest {
-                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
-                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
-
-                presenter.setViewState(viewState)
                 presenter.attachView(view)
-
-                presenter.mapExample(observable)
+                presenter.mapExample()
             }
 
-            it("returns correct output") {
-                verify(viewState).appendTextMap(expected + LINE_SEPARATOR)
+            it("should return correct output") {
+                verify(view).appendTextMap(expected + LINE_SEPARATOR)
             }
         }
     }
 
     describe("Subject") {
         context("when subject is called with a publish subject of integers ") {
-            val source = PublishSubject.create<Int>()
 
             beforeEachTest {
-                given(schedulerProvider.main()).willReturn(Schedulers.trampoline())
-                given(schedulerProvider.io()).willReturn(Schedulers.trampoline())
-
-                presenter.setViewState(viewState)
                 presenter.attachView(view)
-
-                presenter.subjectExample(source)
+                presenter.subjectExample()
             }
 
-            it("returns correct output") {
-                verify(viewState).appendTextSubject(
+            it("should return correct output") {
+                verify(view).appendTextSubject(
                     """First onSubscribe: isDisposed false${TEXT_SEPARATOR}First onNext: value: 1${TEXT_SEPARATOR}First onNext: value: 2${TEXT_SEPARATOR}First onNext: value: 3${TEXT_SEPARATOR}Second onSubscribe: isDisposed false${TEXT_SEPARATOR}First onNext: value: 4${TEXT_SEPARATOR}Second onNext: value: 4${TEXT_SEPARATOR}First onComplete${TEXT_SEPARATOR}Second onComplete$TEXT_SEPARATOR"""
                 )
             }

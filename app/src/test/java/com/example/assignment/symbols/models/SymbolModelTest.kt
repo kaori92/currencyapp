@@ -22,21 +22,26 @@ class DefaultSymbolModelTest : Spek({
         context("when correct symbols is returned by api") {
             beforeEachTest {
                 given(apiService.getSymbols()).willReturn(Single.just(symbols))
+
                 testObserver = model.downloadSymbols().test()
             }
 
-            it("should return correct symbols") {
+            it("should complete") {
                 testObserver.assertComplete()
+            }
+
+            it("should return correct symbols") {
                 testObserver.assertResult(symbols)
             }
         }
 
         context("when error is returned by api") {
             val error =
-                Throwable("java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": No address associated with hostname")
+                Throwable("error")
 
             beforeEachTest {
                 given(apiService.getSymbols()).willReturn(Single.error(error))
+
                 testObserver = model.downloadSymbols().test()
             }
 

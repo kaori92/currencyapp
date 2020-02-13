@@ -1,6 +1,8 @@
 package com.example.assignment.exchangeSymbols.di
 
 import com.example.assignment.api.CurrencyRetrofitService
+import com.example.assignment.core.AndroidSchedulerProvider
+import com.example.assignment.core.ExchangeLogService
 import com.example.assignment.exchangeSymbols.models.DefaultExchangeSymbolModel
 import com.example.assignment.exchangeSymbols.models.ExchangeSymbolModel
 import com.example.assignment.exchangeSymbols.presenter.ExchangeSymbolPresenter
@@ -20,7 +22,8 @@ object ExchangeSymbolModule {
     @JvmStatic
     @Provides
     fun providePresenter(
-        model: ExchangeSymbolModel
+        model: ExchangeSymbolModel,
+        logger: ExchangeLogService
     ): ExchangeSymbolPresenter =
-        ExchangeSymbolPresenter(model)
+        ExchangeSymbolPresenter(model, AndroidSchedulerProvider, logger)
 }

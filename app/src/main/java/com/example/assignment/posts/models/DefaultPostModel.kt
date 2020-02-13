@@ -9,4 +9,8 @@ class DefaultPostModel(
     override fun deletePost(): Completable {
         return apiService.deletePost("1")
     }
+
+    override fun getTextToSplit(): String {
+        return "First/Second/Third"
+    }
 }

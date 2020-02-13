@@ -25,11 +25,15 @@ class ExchangeRatesModelTest : Spek({
         context("when correct exchange rates is returned by api") {
             beforeEachTest {
                 given(apiService.getExchangeRates()).willReturn(Observable.just(rates))
+
                 testObserver = model.downloadExchangeRates().test()
             }
 
-            it("should return correct exchange rates") {
+            it("should complete") {
                 testObserver.assertComplete()
+            }
+
+            it("should return correct exchange rates") {
                 testObserver.assertResult(rates)
             }
         }
@@ -38,6 +42,7 @@ class ExchangeRatesModelTest : Spek({
 
             beforeEachTest {
                 given(apiService.getExchangeRates()).willReturn(Observable.empty())
+
                 testObserver = model.downloadExchangeRates().test()
             }
 
@@ -48,13 +53,11 @@ class ExchangeRatesModelTest : Spek({
 
         context("when error is returned by api") {
             val error =
-                Throwable(
-                    "java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": " +
-                            "No address associated with hostname"
-                )
+                Throwable("error")
 
             beforeEachTest {
                 given(apiService.getExchangeRates()).willReturn(Observable.error(error))
+
                 testObserver = model.downloadExchangeRates().test()
             }
 
@@ -72,21 +75,26 @@ class ExchangeRatesModelTest : Spek({
         context("when correct exchange rates is returned for date by api") {
             beforeEachTest {
                 given(apiService.getRatesForDate(date)).willReturn(Maybe.just(rates))
+
                 testObserver = model.downloadRatesForDate(date).test()
             }
 
-            it("should return correct exchange rates for date") {
+            it("should complete") {
                 testObserver.assertComplete()
+            }
+
+            it("should return correct exchange rates for date") {
                 testObserver.assertResult(rates)
             }
         }
 
         context("when error is returned by api") {
             val error =
-                Throwable("java.net.UnknownHostException: Unable to resolve host \"data.fixer.io\": No address associated with hostname")
+                Throwable("error")
 
             beforeEachTest {
                 given(apiService.getRatesForDate(date)).willReturn(Maybe.error(error))
+
                 testObserver = model.downloadRatesForDate(date).test()
             }
 

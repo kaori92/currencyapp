@@ -1,17 +1,54 @@
 package com.example.assignment.exchangeSymbols.presenter
 
-import com.example.assignment.core.AndroidSchedulerProvider
+import com.example.assignment.core.BasePresenter
+import com.example.assignment.core.LogService
+import com.example.assignment.core.SchedulerProvider
+import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchangeSymbols.models.ExchangeSymbolModel
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolView
+import com.example.assignment.posts.presenter.PostPresenter
+import com.example.assignment.symbols.data.SymbolsMap
+import io.reactivex.rxkotlin.Observables
 import moxy.InjectViewState
-import moxy.MvpPresenter
 
 @InjectViewState
 class ExchangeSymbolPresenter(
-    private val model: ExchangeSymbolModel
-) : MvpPresenter<ExchangeSymbolView>() {
+    private val model: ExchangeSymbolModel,
+    private val schedulerProvider: SchedulerProvider,
+    private val logger: LogService
+) : BasePresenter<ExchangeSymbolView>() {
 
     fun getExchangeSymbols() {
-        model.combineRatesWithSymbols(viewState, AndroidSchedulerProvider)
+        val disposable = Observables.zip(
+            model.downloadSymbols().toObservable(),
+            model.downloadExchangeRates()
+        )
+        { symbolsMap, rates ->
+            combineSymbolWithRate(symbolsMap, rates)
+        }
+            .observeOn(schedulerProvider.main())
+            .subscribeOn(schedulerProvider.io())
+            .subscribe({
+                viewState.setUpRecyclerView(it)
+            }, {
+                viewState.showError(it)
+                logger.log(
+                    PostPresenter::class.java.name,
+                    "Failure getting exchange symbols ${it?.message}"
+                )
+            })
+
+        compositeDisposable.add(disposable)
+    }
+
+
+    private fun combineSymbolWithRate(symbols: SymbolsMap, rates: ExchangeRates): Array<String> {
+        val list = mutableListOf<String>()
+        symbols.map.forEach { (base, name) ->
+            val rate = rates.rates.get(base)
+            list.add("$base $name $rate")
+        }
+
+        return list.toTypedArray()
     }
 }

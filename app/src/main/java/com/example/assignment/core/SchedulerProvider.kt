@@ -18,6 +18,20 @@ object AndroidSchedulerProvider : SchedulerProvider {
     }
 }
 
+object TestSchedulerProvider : SchedulerProvider {
+    override fun main(): Scheduler {
+        return Schedulers.trampoline()
+    }
+
+    override fun io(): Scheduler {
+        return Schedulers.trampoline()
+    }
+
+    override fun computation(): Scheduler {
+        return Schedulers.trampoline()
+    }
+}
+
 interface SchedulerProvider {
     fun main(): Scheduler
     fun io(): Scheduler

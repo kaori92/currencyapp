@@ -12,4 +12,8 @@
     <string name="show_map">Show map</string>
     <string name="show_switch_map">Show switch map</string>
     <string name="show_concat_map">Show concat map</string>
+    <string name="flat_map">Flat map:</string>
+    <string name="test">test</string>
+    <string name="switch_map">Switch map:</string>
+    <string name="concat_map">Concat map:</string>
 </resources>

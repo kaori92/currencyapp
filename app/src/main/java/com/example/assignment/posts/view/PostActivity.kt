@@ -7,12 +7,16 @@ import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
 import com.example.assignment.core.MyApplication
 import com.example.assignment.posts.presenter.PostPresenter
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
 class PostActivity : BaseActivity(), PostView {
+    private lateinit var deletedTextView: TextView
+    private lateinit var flatMapTextView: TextView
+    private lateinit var concatMapTextView: TextView
+    private lateinit var mapTextView: TextView
+    private lateinit var subjectTextView: TextView
+    private lateinit var switchMapTextView: TextView
 
     private val component by lazy {
         (applicationContext as MyApplication).appComponent
@@ -29,6 +33,13 @@ class PostActivity : BaseActivity(), PostView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
+
+        deletedTextView = findViewById(R.id.deleted_text_view)
+        flatMapTextView = findViewById(R.id.flat_map_text_view)
+        concatMapTextView = findViewById(R.id.concat_map_text_view)
+        mapTextView = findViewById(R.id.map_text_view)
+        subjectTextView = findViewById(R.id.subject_text_view)
+        switchMapTextView = findViewById(R.id.switch_map_text_view)
     }
 
     override fun onResume() {
@@ -38,53 +49,47 @@ class PostActivity : BaseActivity(), PostView {
     }
 
     fun showSubjectExample(view: View) {
-        val source = PublishSubject.create<Int>()
-        postPresenter.subjectExample(source)
+        postPresenter.subjectExample()
     }
 
     fun showFlatMapExample(view: View) {
-        val textToSplit = "First/Second/Third"
-        postPresenter.flatMapExample(textToSplit)
+        postPresenter.flatMapExample()
     }
 
     fun showMapExample(view: View) {
-        val observable = Observable.range(1, 6)
-        postPresenter.mapExample(observable)
+        postPresenter.mapExample()
     }
 
     fun showSwitchMapExample(view: View) {
-        val list = listOf("a", "b", "c", "d", "e", "f")
-        postPresenter.switchMapExample(list)
+        postPresenter.switchMapExample()
     }
 
     fun showConcatMapExample(view: View) {
-        val list = listOf("a", "b", "c", "d", "e", "f")
-        postPresenter.concatMapExample(list)
+        postPresenter.concatMapExample()
     }
 
     override fun setUpView() {
-        val textView = findViewById<TextView>(R.id.deleted_text_view)
-        textView.text = "Deleted"
+        deletedTextView.text = "Deleted"
     }
 
     override fun appendTextFlatMap(text: String) {
-        findViewById<TextView>(R.id.flat_map_text_view).append(text)
+        flatMapTextView.append(text)
     }
 
     override fun appendTextConcatMap(text: String) {
-        findViewById<TextView>(R.id.concat_map_text_view).append(text)
+        concatMapTextView.append(text)
     }
 
     override fun appendTextMap(text: String) {
-        findViewById<TextView>(R.id.map_text_view).append(text)
+        mapTextView.append(text)
     }
 
     override fun appendTextSubject(text: String) {
-        findViewById<TextView>(R.id.subject_text_view).append(text)
+        subjectTextView.append(text)
     }
 
     override fun setTextSwitchMap(text: String) {
-        findViewById<TextView>(R.id.switch_map_text_view).text = text
+        switchMapTextView.text = text
     }
 
 }

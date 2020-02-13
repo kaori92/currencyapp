@@ -1,7 +1,6 @@
 package com.example.assignment.posts.models
 
 import com.example.assignment.api.PostsRetrofitService
-import com.example.assignment.core.JSON_API_URL
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import io.reactivex.Completable
@@ -21,6 +20,7 @@ class PostModelTest : Spek({
         context("when delete succeeded") {
             beforeEachTest {
                 given(apiService.deletePost(postId)).willReturn(Completable.complete())
+
                 testObserver = model.deletePost().test()
             }
 
@@ -31,10 +31,11 @@ class PostModelTest : Spek({
 
         context("when delete failed") {
             val error =
-                Throwable("java.net.UnknownHostException: Unable to resolve host $JSON_API_URL: No address associated with hostname")
+                Throwable("error")
 
             beforeEachTest {
                 given(apiService.deletePost(postId)).willReturn(Completable.error(error))
+
                 testObserver = model.deletePost().test()
             }
 

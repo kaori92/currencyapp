@@ -10,4 +10,6 @@ interface ExchangeView : BaseView {
     @StateStrategyType(AddToEndStrategy::class)
     fun setUpRecyclerView(exchangeRatesModel: ExchangeRates)
 
+    @StateStrategyType(AddToEndStrategy::class)
+    fun showToast(text: String)
 }

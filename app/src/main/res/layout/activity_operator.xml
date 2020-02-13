@@ -8,36 +8,36 @@
         android:id="@+id/flatMapLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Flat map:"></TextView>
+        android:text="@string/flat_map" />
 
     <TextView
         android:id="@+id/flatMapTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"></TextView>
+        android:text="@string/test" />
 
     <TextView
         android:id="@+id/switchMapLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Switch map:"></TextView>
+        android:text="@string/switch_map" />
 
     <TextView
         android:id="@+id/switchMapTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"></TextView>
+        android:text="@string/test" />
 
     <TextView
         android:id="@+id/concatMapLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Concat map:"></TextView>
+        android:text="@string/concat_map" />
 
     <TextView
         android:id="@+id/concatMapTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"></TextView>
+        android:text="@string/test" />
 
 </LinearLayout>
