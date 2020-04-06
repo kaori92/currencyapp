@@ -16,4 +16,11 @@
     <string name="test">test</string>
     <string name="switch_map">Switch map:</string>
     <string name="concat_map">Concat map:</string>
+    <string name="deleted">Deleted</string>
+    <string name="date_show">Showing rates for date %s</string>
+    <string name="timer_show">Showing rates every %1$d seconds</string>
+    <string name="go_to_exchange_symbols">Going to exchange and symbols activity</string>
+    <string name="first">xyz</string>
+    <string name="second">Second</string>
+    <string name="refresh_rates">Refreshing exchange rates</string>
 </resources>

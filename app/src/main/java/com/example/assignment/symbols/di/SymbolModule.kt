@@ -2,7 +2,7 @@ package com.example.assignment.symbols.di
 
 import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.core.AndroidSchedulerProvider
-import com.example.assignment.core.ExchangeLogService
+import com.example.assignment.core.LogService
 import com.example.assignment.symbols.models.DefaultSymbolModel
 import com.example.assignment.symbols.models.SymbolModel
 import com.example.assignment.symbols.presenter.SymbolPresenter
@@ -23,7 +23,7 @@ object SymbolModule {
     @Provides
     fun providePresenter(
         model: SymbolModel,
-        logger: ExchangeLogService
+        logger: LogService
     ): SymbolPresenter =
         SymbolPresenter(model, AndroidSchedulerProvider, logger)
 }

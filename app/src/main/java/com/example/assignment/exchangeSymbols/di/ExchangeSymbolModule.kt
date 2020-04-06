@@ -2,7 +2,7 @@ package com.example.assignment.exchangeSymbols.di
 
 import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.core.AndroidSchedulerProvider
-import com.example.assignment.core.ExchangeLogService
+import com.example.assignment.core.LogService
 import com.example.assignment.exchangeSymbols.models.DefaultExchangeSymbolModel
 import com.example.assignment.exchangeSymbols.models.ExchangeSymbolModel
 import com.example.assignment.exchangeSymbols.presenter.ExchangeSymbolPresenter
@@ -23,7 +23,7 @@ object ExchangeSymbolModule {
     @Provides
     fun providePresenter(
         model: ExchangeSymbolModel,
-        logger: ExchangeLogService
+        logger: LogService
     ): ExchangeSymbolPresenter =
         ExchangeSymbolPresenter(model, AndroidSchedulerProvider, logger)
 }

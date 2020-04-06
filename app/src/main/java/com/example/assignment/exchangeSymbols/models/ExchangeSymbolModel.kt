@@ -6,7 +6,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 interface ExchangeSymbolModel {
-    fun downloadExchangeRates(): Observable<ExchangeRates>
+    fun downloadExchangeSymbols(): Observable<Array<String>>
 
-    fun downloadSymbols(): Single<SymbolsMap>
+    fun combineSymbolWithRate(symbols: SymbolsMap, rates: ExchangeRates): Array<String>
 }

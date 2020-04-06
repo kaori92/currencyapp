@@ -2,7 +2,9 @@ package com.example.assignment.posts.di
 
 import com.example.assignment.api.PostsRetrofitService
 import com.example.assignment.core.AndroidSchedulerProvider
-import com.example.assignment.core.ExchangeLogService
+import com.example.assignment.core.LogService
+import com.example.assignment.core.SchedulerProvider
+import com.example.assignment.core.StringService
 import com.example.assignment.posts.models.DefaultPostModel
 import com.example.assignment.posts.models.PostModel
 import com.example.assignment.posts.presenter.PostPresenter
@@ -23,7 +25,8 @@ object PostModule {
     @Provides
     fun providePresenter(
         model: PostModel,
-        logger: ExchangeLogService
+        logger: LogService,
+        stringService: StringService
     ): PostPresenter =
-        PostPresenter(model, AndroidSchedulerProvider, logger)
+        PostPresenter(model, AndroidSchedulerProvider, logger, stringService)
 }

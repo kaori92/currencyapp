@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
 import com.example.assignment.core.MyApplication
+import com.example.assignment.core.PREF_BASE
 import com.example.assignment.symbols.data.SymbolsMap
 import com.example.assignment.symbols.presenter.SymbolPresenter
 import kotlinx.android.synthetic.main.activity_symbol.*
@@ -32,7 +33,7 @@ class SymbolActivity : BaseActivity(), SymbolView {
     }
 
     override fun setSymbols(symbolsMap: SymbolsMap) {
-        val base = intent.getStringExtra("base").orEmpty()
+        val base = intent.getStringExtra(PREF_BASE).orEmpty()
         baseTextView.text = base
         nameTextView.text = symbolsMap.map[base]
     }

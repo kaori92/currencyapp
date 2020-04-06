@@ -1,9 +1,7 @@
 package com.example.assignment.exchange.presenter
 
-import com.example.assignment.core.BasePresenter
-import com.example.assignment.core.LogService
-import com.example.assignment.core.SchedulerProvider
-import com.example.assignment.core.TIMER_PERIOD
+import com.example.assignment.R
+import com.example.assignment.core.*
 import com.example.assignment.exchange.models.ExchangeRatesModel
 import com.example.assignment.exchange.view.ExchangeView
 import io.reactivex.Observable
@@ -15,7 +13,8 @@ import java.util.concurrent.TimeUnit
 class ExchangePresenter(
     private val model: ExchangeRatesModel,
     private val schedulerProvider: SchedulerProvider,
-    private val logger: LogService
+    private val logger: LogService,
+    private val stringService: StringService
 ) : BasePresenter<ExchangeView>() {
     private var timerDisposable: Disposable? = null
 
@@ -27,7 +26,10 @@ class ExchangePresenter(
                 viewState.setUpRecyclerView(it)
             }, {
                 viewState.showError(it)
-                logger.log(ExchangeView::class.java.name, "Failure getting rates ${it?.message}")
+                logger.log(
+                    ExchangePresenter::class.java.name,
+                    "Failure getting rates ${it?.message}"
+                )
             })
 
         compositeDisposable.add(disposable)
@@ -41,7 +43,7 @@ class ExchangePresenter(
         }
     }
 
-    fun getExchangeRatesPeriodically(activity: ExchangeView) {
+    fun getExchangeRatesPeriodically() {
         getExchangeRates()
 
         timerDisposable = Observable.interval(TIMER_PERIOD.toLong(), TimeUnit.SECONDS)
@@ -49,14 +51,18 @@ class ExchangePresenter(
             .observeOn(schedulerProvider.main())
             .subscribeOn(schedulerProvider.io())
             .subscribe({
-                logger.log(ExchangeView::class.java.name, "Getting exchange rates")
+                logger.log(ExchangePresenter::class.java.name, "Getting exchange rates")
 
-                viewState.showToast("Refreshing exchange rates")
+                viewState.showToast(
+                    stringService.getStringResource(
+                        R.string.refresh_rates
+                    )
+                )
                 getExchangeRates()
             }, {
                 viewState.showError(it)
                 logger.log(
-                    ExchangeView::class.java.name,
+                    ExchangePresenter::class.java.name,
                     "Error subscribing to timer ${it?.message}"
                 )
             })
@@ -77,7 +83,7 @@ class ExchangePresenter(
             }, {
                 viewState.showError(it)
                 logger.log(
-                    ExchangeView::class.java.name,
+                    ExchangePresenter::class.java.name,
                     "Error getting rates for date ${it?.message}"
                 )
             })

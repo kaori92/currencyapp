@@ -19,10 +19,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="@dimen/zero"
         android:layout_height="@dimen/zero"
-        android:paddingTop="?attr/actionBarSize"
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

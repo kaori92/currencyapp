@@ -1,6 +1,9 @@
 package com.example.assignment.exchange.presenter
 
+import android.content.Context
+import com.example.assignment.core.DefaultStringService
 import com.example.assignment.core.LogService
+import com.example.assignment.core.StringService
 import com.example.assignment.core.TestSchedulerProvider
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.models.ExchangeRatesModel
@@ -20,8 +23,10 @@ class ExchangeRatesPresenterTest : Spek({
     val view: ExchangeView by memoized { mock<ExchangeView>() }
     val logger: LogService by memoized { mock<LogService>() }
 
+    val stringService by memoized { mock<StringService>() }
+
     val presenter: ExchangePresenter by memoized {
-        ExchangePresenter(model, schedulerProvider, logger)
+        ExchangePresenter(model, schedulerProvider, logger, stringService)
     }
 
     describe("downloading exchange rates") {

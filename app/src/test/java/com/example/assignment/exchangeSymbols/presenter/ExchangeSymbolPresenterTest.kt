@@ -11,6 +11,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.Observables
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
@@ -28,33 +29,27 @@ class ExchangeSymbolPresenterTest : Spek({
     describe("combining exchange rates with symbols") {
 
         context("when exchange rates and symbols are downloaded ") {
-            val rates = ExchangeRates(
-                1577795046, "2019-12-31", "EUR", mapOf("PLN" to 4.257214)
-            )
-            val symbols = SymbolsMap(mapOf("PLN" to "Polish Zloty"))
+            val expected = arrayOf("PLN Polish Zloty 4.257214")
+            val expectedObservable = Observable.just(expected)
 
             beforeEachTest {
-                given(model.downloadExchangeRates()).willReturn(Observable.just(rates))
-                given(model.downloadSymbols()).willReturn(Single.just(symbols))
+                given(model.downloadExchangeSymbols()).willReturn(expectedObservable)
 
                 presenter.attachView(view)
                 presenter.getExchangeSymbols()
             }
 
             it("should return correct rates and symbols") {
-                val expected = arrayOf("PLN Polish Zloty 4.257214")
-
                 verify(view).setUpRecyclerView(expected)
             }
         }
 
+
         context("when error is returned by api") {
-            val error =
-                Throwable("error")
+            val error = Throwable("error")
 
             beforeEachTest {
-                given(model.downloadExchangeRates()).willReturn(Observable.error(error))
-                given(model.downloadSymbols()).willReturn(Single.error(error))
+                given(model.downloadExchangeSymbols()).willReturn(Observable.error(error))
 
                 presenter.attachView(view)
                 presenter.getExchangeSymbols()

@@ -38,19 +38,6 @@ class ExchangeRatesModelTest : Spek({
             }
         }
 
-        context("when empty exchange rates is returned by api") {
-
-            beforeEachTest {
-                given(apiService.getExchangeRates()).willReturn(Observable.empty())
-
-                testObserver = model.downloadExchangeRates().test()
-            }
-
-            it("should return empty exchange rates") {
-                testObserver.assertNoValues()
-            }
-        }
-
         context("when error is returned by api") {
             val error =
                 Throwable("error")

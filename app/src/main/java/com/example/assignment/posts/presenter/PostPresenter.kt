@@ -1,9 +1,7 @@
 package com.example.assignment.posts.presenter
 
-import com.example.assignment.core.BasePresenter
-import com.example.assignment.core.LINE_SEPARATOR
-import com.example.assignment.core.LogService
-import com.example.assignment.core.SchedulerProvider
+import com.example.assignment.R
+import com.example.assignment.core.*
 import com.example.assignment.posts.models.PostModel
 import com.example.assignment.posts.observers.ExampleObserver
 import com.example.assignment.posts.view.PostView
@@ -15,7 +13,8 @@ import moxy.InjectViewState
 class PostPresenter(
     private val model: PostModel,
     private val schedulerProvider: SchedulerProvider,
-    private val logger: LogService
+    private val logger: LogService,
+    private val stringService: StringService
 ) : BasePresenter<PostView>() {
 
     fun deletePost() {
@@ -37,7 +36,7 @@ class PostPresenter(
         val text = StringBuffer("")
 
         source.subscribe(
-            ExampleObserver("First", text)
+            ExampleObserver(stringService.getStringResource(R.string.first), text)
         )
 
         source.onNext(1)
@@ -45,7 +44,7 @@ class PostPresenter(
         source.onNext(3)
 
         source.subscribe(
-            ExampleObserver("Second", text)
+            ExampleObserver(stringService.getStringResource(R.string.second), text)
         )
 
         source.onNext(4)
