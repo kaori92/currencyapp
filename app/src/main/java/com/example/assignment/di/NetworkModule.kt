@@ -3,9 +3,7 @@ package com.example.assignment.di
 import com.example.assignment.api.CurrencyRetrofitService
 import com.example.assignment.api.PostsRetrofitService
 import com.example.assignment.core.CURRENCY_API_URL
-import com.example.assignment.core.ExchangeLogService
 import com.example.assignment.core.JSON_API_URL
-import com.example.assignment.core.LogService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -17,10 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 object NetworkModule {
-
-    @JvmStatic
-    @Provides
-    fun provideLogger(): LogService = ExchangeLogService()
 
     @JvmStatic
     @Provides

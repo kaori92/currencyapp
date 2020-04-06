@@ -19,13 +19,7 @@ class ExchangeSymbolPresenter(
 ) : BasePresenter<ExchangeSymbolView>() {
 
     fun getExchangeSymbols() {
-        val disposable = Observables.zip(
-            model.downloadSymbols().toObservable(),
-            model.downloadExchangeRates()
-        )
-        { symbolsMap, rates ->
-            combineSymbolWithRate(symbolsMap, rates)
-        }
+        val disposable = model.downloadExchangeSymbols()
             .observeOn(schedulerProvider.main())
             .subscribeOn(schedulerProvider.io())
             .subscribe({
@@ -42,13 +36,4 @@ class ExchangeSymbolPresenter(
     }
 
 
-    private fun combineSymbolWithRate(symbols: SymbolsMap, rates: ExchangeRates): Array<String> {
-        val list = mutableListOf<String>()
-        symbols.map.forEach { (base, name) ->
-            val rate = rates.rates.get(base)
-            list.add("$base $name $rate")
-        }
-
-        return list.toTypedArray()
-    }
 }

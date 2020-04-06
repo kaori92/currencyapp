@@ -6,7 +6,7 @@ import moxy.MvpPresenter
 open class BasePresenter<MvpView : moxy.MvpView?> : MvpPresenter<MvpView>() {
     protected var compositeDisposable = CompositeDisposable()
 
-    fun clearCompositeDisposable() {
+    private fun clearCompositeDisposable() {
         compositeDisposable.clear()
     }
 

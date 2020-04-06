@@ -1,9 +1,7 @@
 package com.example.assignment.posts.presenter
 
-import com.example.assignment.core.LINE_SEPARATOR
-import com.example.assignment.core.LogService
-import com.example.assignment.core.TEXT_SEPARATOR
-import com.example.assignment.core.TestSchedulerProvider
+import com.example.assignment.R
+import com.example.assignment.core.*
 import com.example.assignment.posts.models.PostModel
 import com.example.assignment.posts.view.PostView
 import com.nhaarman.mockitokotlin2.any
@@ -20,9 +18,10 @@ class PostPresenterTest : Spek({
     val model: PostModel by memoized { mock<PostModel>() }
     val view: PostView by memoized { mock<PostView>() }
     val logger: LogService by memoized { mock<LogService>() }
+    val stringService = mock<StringService>()
 
     val presenter: PostPresenter by memoized {
-        PostPresenter(model, schedulerProvider, logger)
+        PostPresenter(model, schedulerProvider, logger, stringService)
     }
 
     describe("Deleting posts") {
@@ -135,6 +134,9 @@ class PostPresenterTest : Spek({
         context("when subject is called with a publish subject of integers ") {
 
             beforeEachTest {
+                given(stringService.getStringResource(R.string.first)).willReturn("First")
+                given(stringService.getStringResource(R.string.second)).willReturn("Second")
+
                 presenter.attachView(view)
                 presenter.subjectExample()
             }

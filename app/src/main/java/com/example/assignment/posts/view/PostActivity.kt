@@ -11,6 +11,7 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
 class PostActivity : BaseActivity(), PostView {
+
     private lateinit var deletedTextView: TextView
     private lateinit var flatMapTextView: TextView
     private lateinit var concatMapTextView: TextView
@@ -69,7 +70,7 @@ class PostActivity : BaseActivity(), PostView {
     }
 
     override fun setUpView() {
-        deletedTextView.text = "Deleted"
+        deletedTextView.text = getString(R.string.deleted)
     }
 
     override fun appendTextFlatMap(text: String) {

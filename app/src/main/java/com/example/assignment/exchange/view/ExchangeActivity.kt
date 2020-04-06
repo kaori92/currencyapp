@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
 import com.example.assignment.core.MyApplication
+import com.example.assignment.core.PREF_BASE
 import com.example.assignment.core.TIMER_PERIOD
 import com.example.assignment.exchange.adapters.ExchangeAdapter
 import com.example.assignment.exchange.data.ExchangeRates
@@ -21,6 +22,8 @@ import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 
 class ExchangeActivity : BaseActivity(), ExchangeView {
+
+    private val date = "2013-12-24"
 
     override fun showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
@@ -53,7 +56,7 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
 
     private fun onItemClick(base: String) {
         val intent = Intent(this, SymbolActivity::class.java)
-        intent.putExtra("base", base)
+        intent.putExtra(PREF_BASE, base)
         startActivity(intent)
     }
 
@@ -101,20 +104,20 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
 
     private fun handleExchangeDateSelected(): Boolean {
         exchangePresenter.diposeOfTimer()
-        showToast("Showing rates for date 2013-12-24")
-        exchangePresenter.getRatesForDate("2013-12-24")
+        showToast(getString(R.string.date_show, date))
+        exchangePresenter.getRatesForDate(date)
         return true
     }
 
     private fun handleExchangeTimerSelected(): Boolean {
-        showToast("Showing rates every $TIMER_PERIOD seconds")
-        exchangePresenter.getExchangeRatesPeriodically(this)
+        showToast(getString(R.string.timer_show, TIMER_PERIOD))
+        exchangePresenter.getExchangeRatesPeriodically()
         return true
     }
 
     private fun handleExchangeSymbolSelected(): Boolean {
         exchangePresenter.diposeOfTimer()
-        showToast("Going to exchange and symbols activity")
+        showToast(getString(R.string.go_to_exchange_symbols))
         val intent = Intent(this, ExchangeSymbolActivity::class.java)
         startActivity(intent)
         return true
@@ -124,5 +127,4 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
         super.onPause()
         exchangePresenter.diposeOfTimer()
     }
-
 }
