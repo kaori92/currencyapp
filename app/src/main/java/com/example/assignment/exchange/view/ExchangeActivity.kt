@@ -7,15 +7,12 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.assignment.R
-import com.example.assignment.core.BaseActivity
-import com.example.assignment.core.MyApplication
-import com.example.assignment.core.PREF_BASE
-import com.example.assignment.core.TIMER_PERIOD
+import com.example.assignment.core.*
 import com.example.assignment.exchange.adapters.ExchangeAdapter
 import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchange.presenter.ExchangePresenter
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolActivity
-import com.example.assignment.posts.view.PostActivity
+import com.example.assignment.post.view.PostActivity
 import com.example.assignment.symbols.view.SymbolActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import moxy.presenter.InjectPresenter
@@ -23,10 +20,8 @@ import moxy.presenter.ProvidePresenter
 
 class ExchangeActivity : BaseActivity(), ExchangeView {
 
-    private val date = "2013-12-24"
-
     override fun showToast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
     private val component by lazy {
@@ -104,8 +99,8 @@ class ExchangeActivity : BaseActivity(), ExchangeView {
 
     private fun handleExchangeDateSelected(): Boolean {
         exchangePresenter.diposeOfTimer()
-        showToast(getString(R.string.date_show, date))
-        exchangePresenter.getRatesForDate(date)
+        showToast(getString(R.string.date_show, RATES_DATE))
+        exchangePresenter.getRatesForDate(RATES_DATE)
         return true
     }
 

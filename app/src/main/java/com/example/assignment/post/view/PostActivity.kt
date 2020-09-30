@@ -1,4 +1,4 @@
-package com.example.assignment.posts.view
+package com.example.assignment.post.view
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.example.assignment.R
 import com.example.assignment.core.BaseActivity
 import com.example.assignment.core.MyApplication
-import com.example.assignment.posts.presenter.PostPresenter
+import com.example.assignment.post.presenter.PostPresenter
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 

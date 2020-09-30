@@ -3,12 +3,9 @@ package com.example.assignment.exchangeSymbols.presenter
 import com.example.assignment.core.BasePresenter
 import com.example.assignment.core.LogService
 import com.example.assignment.core.SchedulerProvider
-import com.example.assignment.exchange.data.ExchangeRates
 import com.example.assignment.exchangeSymbols.models.ExchangeSymbolModel
 import com.example.assignment.exchangeSymbols.view.ExchangeSymbolView
-import com.example.assignment.posts.presenter.PostPresenter
-import com.example.assignment.symbols.data.SymbolsMap
-import io.reactivex.rxkotlin.Observables
+import com.example.assignment.post.presenter.PostPresenter
 import moxy.InjectViewState
 
 @InjectViewState

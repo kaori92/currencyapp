@@ -1,9 +1,9 @@
-package com.example.assignment.posts.presenter
+package com.example.assignment.post.presenter
 
 import com.example.assignment.R
 import com.example.assignment.core.*
-import com.example.assignment.posts.models.PostModel
-import com.example.assignment.posts.view.PostView
+import com.example.assignment.post.models.PostModel
+import com.example.assignment.post.view.PostView
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock

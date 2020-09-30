@@ -1,4 +1,4 @@
-package com.example.assignment.posts.models
+package com.example.assignment.post.models
 
 import com.example.assignment.api.PostsRetrofitService
 import io.reactivex.Completable
