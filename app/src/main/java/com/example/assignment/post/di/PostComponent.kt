@@ -1,6 +1,6 @@
-package com.example.assignment.posts.di
+package com.example.assignment.post.di
 
-import com.example.assignment.posts.presenter.PostPresenter
+import com.example.assignment.post.presenter.PostPresenter
 import dagger.Subcomponent
 
 @Subcomponent(modules = [PostModule::class])

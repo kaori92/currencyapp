@@ -1,4 +1,4 @@
-package com.example.assignment.posts.view
+package com.example.assignment.post.view
 
 import com.example.assignment.core.BaseView
 import moxy.viewstate.strategy.AddToEndStrategy

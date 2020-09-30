@@ -23,4 +23,6 @@
     <string name="first">xyz</string>
     <string name="second">Second</string>
     <string name="refresh_rates">Refreshing exchange rates</string>
+    <string name="conversion">Conversion</string>
+    <string name="result_of_conversion">Result of the conversion from %1$s to %2$s in the amount of %3$s: %4$f</string>
 </resources>

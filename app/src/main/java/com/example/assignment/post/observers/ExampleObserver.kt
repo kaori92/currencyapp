@@ -1,4 +1,4 @@
-package com.example.assignment.posts.observers
+package com.example.assignment.post.observers
 
 import com.example.assignment.core.TEXT_SEPARATOR
 import io.reactivex.Observer

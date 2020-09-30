@@ -1,10 +1,10 @@
-package com.example.assignment.posts.presenter
+package com.example.assignment.post.presenter
 
 import com.example.assignment.R
 import com.example.assignment.core.*
-import com.example.assignment.posts.models.PostModel
-import com.example.assignment.posts.observers.ExampleObserver
-import com.example.assignment.posts.view.PostView
+import com.example.assignment.post.models.PostModel
+import com.example.assignment.post.observers.ExampleObserver
+import com.example.assignment.post.view.PostView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import moxy.InjectViewState

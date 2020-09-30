@@ -6,3 +6,4 @@ const val TIMER_PERIOD = 5
 const val LINE_SEPARATOR = "\n"
 const val TEXT_SEPARATOR = "#"
 const val PREF_BASE = "base"
+const val RATES_DATE = "2013-12-24"

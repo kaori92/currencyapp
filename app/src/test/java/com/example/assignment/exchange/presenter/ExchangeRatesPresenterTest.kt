@@ -1,7 +1,5 @@
 package com.example.assignment.exchange.presenter
 
-import android.content.Context
-import com.example.assignment.core.DefaultStringService
 import com.example.assignment.core.LogService
 import com.example.assignment.core.StringService
 import com.example.assignment.core.TestSchedulerProvider
